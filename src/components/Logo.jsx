@@ -1,18 +1,18 @@
 import React from "react";
-import { IoIosVideocam } from "react-icons/io";
+import { FaHeadphones } from "./icons";
 import { Link } from "react-router-dom";
 
 function Logo({ size = "30" }) {
     return (
-        <>
+        <div className="flex items-end bg-black">
             <Link to={'/'} className="flex gap-2 items-center">
-                <IoIosVideocam
+                <FaHeadphones
                     size={size}
                     color="#A855F7"
                 />
-                <span className="font-bold text-black">STREAMIFY</span>
+                <span className="font-bold  bg-gradient-to-r from-blue-400 via-purple-400 to-pink-300 bg-clip-text text-transparent">STREAMIFY</span>
             </Link>
-        </>
+        </div>
     );
 }
 

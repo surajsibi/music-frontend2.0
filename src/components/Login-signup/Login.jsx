@@ -1,12 +1,29 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Input, Button } from "../index"
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
+import { getCurrentUser, userLogin } from '../../store/Slice/authSlice'
+import LoginSkeleton from '../../skeleton/LoginSkeleton'
 
 const Login = () => {
+const loading = useSelector((state)=>{state.auth?.loading})
+const dispatch = useDispatch()
+
   const { handleSubmit, register, formState: { errors }, } = useForm();
   const isActive = useSelector(state=>state.utils.isActive)
-  const submit = data => console.log(data);
+  const submit = async (data) => {
+    const isEmail = data.username.includes("@")
+    const loginData = isEmail?{email:data.usename,password:data.password}:{username:data.username,password:data.password}
+    const response = await dispatch(userLogin(loginData))
+    const user = await dispatch( getCurrentUser())
+    
+    // if(user && response?.payload){
+    //   navigate("/")
+    // }
+  };
+  if(loading){
+    return <LoginSkeleton/>
+  }
 
 
   return (
@@ -21,18 +38,28 @@ const Login = () => {
           type="text"
           className="bg-gray-100 rounded-md w-full mb-3 p-2.5 text-sm outline-none"
           placeholder="Enter your email or username"
+          {...register("username",{
+            required:"Username/email is required"
+          })}
         />
-        {errors.username && (
-          <span className="text-red-500">{errors.username.message}</span>
+        {errors.email && (
+          <span className='text-red-500'>{errors.email.message}</span>
         )}
+        {/* {errors.username && (
+          <span className="text-red-500">{errors.username.message}</span>
+        )} */}
         <Input
           type="password"
           placeholder="Password"
           className="bg-gray-100 rounded-md w-full mb-3 p-2.5 text-sm outline-none"
+          {...register("password",{
+            required:"password is required"
+          })}
         />
         {errors.password && (
-          <span className="text-red-500">{errors.password.message}</span>
+          <span className='text-red-500'>{errors.password.message}</span>
         )}
+        
         <Button
         type='submit'
           className="bg-indigo-700 text-white uppercase px-6 py-2 rounded-md mt-4 text-sm font-semibold"
