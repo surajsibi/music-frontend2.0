@@ -23,7 +23,7 @@ const HorizontalCrad = () => {
       <div className='h-[40vh] py-4 flex  items-center gap-8 overflow-hidden hover:overflow-x-scroll scrollbar'>
         {songs.map((song, index) => (
           <div key={index}>
-            <LowerCard
+            <LowerCard 
               title={song.title}
               image={song.image}
               artist={song.artist}
