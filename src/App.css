@@ -1,0 +1,43 @@
+/* Target the scrollbar in the div with the class 'overflow-x-auto' */
+.scrollbar::-webkit-scrollbar {
+    height: 8px; /* Height of the scrollbar */
+    
+  }
+  
+  .scrollbar::-webkit-scrollbar-track {
+    background: #000000; /* Light gray background */
+    border-radius: 10px; /* Rounded corners for the track */
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4b5563; /* Darker color for the thumb */
+    border-radius: 10px;
+    border: 2px solid #f0f0f0; /* Creates space around the thumb */
+  }
+  
+  .scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: #1f2937; /* Darker color on hover */
+  }
+
+
+/* Target the scrollbar in the div with the class 'overflow-x-auto' */
+.scrollbarMain::-webkit-scrollbar {
+    height: 8px; /* Height of the scrollbar */
+    width: 15px;
+  }
+  
+  .scrollbarMain::-webkit-scrollbar-track {
+    background: transparent; /* Light gray background */
+    border-radius: 10px; /* Rounded corners for the track */
+  }
+  
+  .scrollbarMain::-webkit-scrollbar-thumb {
+    background-color: #161118; /* Darker color for the thumb */
+    border-radius: 10px;
+    border: 2px solid #bb39f7; /* Creates space around the thumb */
+  }
+  
+  .scrollbarMain:hover::-webkit-scrollbar-thumb {
+    background-color: #161118; /* Darker color on hover */
+  }
+  

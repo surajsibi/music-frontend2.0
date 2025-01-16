@@ -20,8 +20,7 @@ import { changeGenre } from '../../store/Slice/utilsSlice'
 const Genre = () => {
     const currentGenre = useSelector(state => state.utils.currentGenre)
     const dispatch = useDispatch()
-    console.log(currentGenre);
-    // const [currentGenre, setCurrentGenre] = useState("")
+
     const genres = ["Workout", "Feel good", "Energize", "Relax", "Romance", "Party", "Commute", "Sad", "Focus", "Sleep"]
     const genreImages = {
         Workout: WorkoutImage,
@@ -41,8 +40,9 @@ const Genre = () => {
     return (
         <div style={{
             backgroundImage: `url(${genreImages[currentGenre] || genreImages["defaultGenre"]})`,
-        }} className="w-full h-full bg-no-repeat bg-cover bg-center ">
-            <div className='w-full flex items-center justify-between pt-8 px-24 '>
+        }} className="w-full h-full bg-no-repeat bg-cover bg-center relative ">
+        
+            <div className='w-full flex items-center justify-between pt-8 px-24 z-10 '>
                 {genres.map((genre) => (
                     <Button
                         key={genre}
@@ -54,13 +54,7 @@ const Genre = () => {
 
 
             </div>
-            {/* {genres.map((genre)=>(
-                <Button
-                    key={genre}
-                    children={genre}
-                    onCLick={()=>{setCurrentGenre(genre)}}
-                />
-            ))} */}
+            
         </div>
     )
 }

@@ -3,6 +3,7 @@ import Homepage from "./pages/Homepage"
 import { Toaster } from "react-hot-toast"
 import Layout from "./Layout"
 import { Route,Routes } from "react-router-dom"
+import './App.css'
 function App() {
 
 

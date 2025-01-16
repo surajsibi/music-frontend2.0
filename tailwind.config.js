@@ -17,10 +17,12 @@ export default {
             zIndex: '5',
           },
         },
+        
       },
       animation:{
         move: 'move 0.6s'
       },
+    
     },
   },
   plugins: [],
