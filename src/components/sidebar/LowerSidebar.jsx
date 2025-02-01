@@ -1,7 +1,8 @@
 import React from 'react'
 import { FaPlus } from "../icons"
 import { NavLink } from 'react-router-dom'
-
+import { useDispatch } from 'react-redux'
+import {changeNewPlaylist} from "../../store/Slice/utilsSlice"
 
 
 const LowerSidebar = () => {
@@ -19,10 +20,16 @@ const LowerSidebar = () => {
             subtitle: "Auto Playlist"
         },
     ]
+
+    const dispatch = useDispatch()
+
+    const openNewPlaylist = ()=>{
+        dispatch(changeNewPlaylist())
+    }
     return (
         <div>
 
-            <div className='bg-[#292727] rounded-xl flex justify-center items-center'>
+            <div onClick={openNewPlaylist} className='bg-[#292727] rounded-xl flex justify-center items-center cursor-pointer'>
                 <button className='flex py-2 px-4 justify-center items-center gap-4'>
                     <FaPlus size={25} color='white' />
                     <span className='text-white'>New Playlist</span>

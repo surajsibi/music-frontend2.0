@@ -1,43 +1,177 @@
 /* Target the scrollbar in the div with the class 'overflow-x-auto' */
 .scrollbar::-webkit-scrollbar {
-    height: 8px; /* Height of the scrollbar */
-    
-  }
-  
-  .scrollbar::-webkit-scrollbar-track {
-    background: #000000; /* Light gray background */
-    border-radius: 10px; /* Rounded corners for the track */
-  }
-  
-  .scrollbar::-webkit-scrollbar-thumb {
-    background-color: #4b5563; /* Darker color for the thumb */
-    border-radius: 10px;
-    border: 2px solid #f0f0f0; /* Creates space around the thumb */
-  }
-  
-  .scrollbar:hover::-webkit-scrollbar-thumb {
-    background-color: #1f2937; /* Darker color on hover */
-  }
+  height: 8px;
+  /* Height of the scrollbar */
+
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: #000000;
+  /* Light gray background */
+  border-radius: 10px;
+  /* Rounded corners for the track */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  /* Darker color for the thumb */
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+  /* Creates space around the thumb */
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #1f2937;
+  /* Darker color on hover */
+}
 
 
 /* Target the scrollbar in the div with the class 'overflow-x-auto' */
 .scrollbarMain::-webkit-scrollbar {
-    height: 8px; /* Height of the scrollbar */
-    width: 15px;
+  height: 8px;
+  /* Height of the scrollbar */
+  width: 15px;
+}
+
+.scrollbarMain::-webkit-scrollbar-track {
+  background: transparent;
+  /* Light gray background */
+  border-radius: 10px;
+  /* Rounded corners for the track */
+}
+
+.scrollbarMain::-webkit-scrollbar-thumb {
+  background-color: #161118;
+  /* Darker color for the thumb */
+  border-radius: 10px;
+  border: 2px solid #bb39f7;
+  /* Creates space around the thumb */
+}
+
+.scrollbarMain:hover::-webkit-scrollbar-thumb {
+  background-color: #161118;
+  /* Darker color on hover */
+}
+
+/* Target the scrollbar in the div with the class 'overflow-x-auto' */
+.scrollbarMusic {
+  margin: 0;
+  /* Remove any default margin */
+  padding: 0;
+  /* Remove any default padding */
+  height: 87%;
+  /* Ensure it fits the container */
+  overflow: auto;
+  /* Ensure proper scrolling */
+}
+
+.scrollbarMusic::-webkit-scrollbar {
+  height: 8px;
+  /* Height of the scrollbar */
+  width: 9px;
+}
+
+.scrollbarMusic::-webkit-scrollbar-track {
+  background: transparent;
+  /* Light gray background */
+  border-radius: 10px;
+  /* Rounded corners for the track */
+}
+
+.scrollbarMusic::-webkit-scrollbar-thumb {
+  background-color: #521968;
+  /* Darker color for the thumb */
+  border-radius: 10px;
+  border: 2px solid #bb39f7;
+  /* Creates space around the thumb */
+}
+
+.scrollbarMusic:hover::-webkit-scrollbar-thumb {
+  background-color: #521968;
+  /* Darker color on hover */
+}
+
+
+
+
+
+.sliderMusic {
+  -webkit-appearance: none;
+  /* Remove default browser styles */
+  appearance: none;
+  width: 100%;
+  /* Slider width */
+  height: 2px;
+  /* Height of the track */
+  border-radius: 4px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Pointer cursor for better UX */
+  outline: none;
+}
+
+.sliderMusic::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  /* Thumb width */
+  height: 14px;
+  /* Thumb height */
+  background: #6eccbc;
+  /* Thumb color */
+  border-radius: 50%;
+  /* Circular thumb */
+  cursor: pointer;
+  /* Pointer cursor */
+}
+
+.sliderMusic::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #af634c;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sliderMusic::-ms-thumb {
+  width: 14px;
+  height: 14px;
+  background: #af634c;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.progressBar {
+  -webkit-appearance: none;
+  background: rgb(165, 0, 0);
+}
+.progressBar::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: rgb(255, 8, 0);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+@keyframes jackInBox {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) rotate(-30deg);
   }
-  
-  .scrollbarMain::-webkit-scrollbar-track {
-    background: transparent; /* Light gray background */
-    border-radius: 10px; /* Rounded corners for the track */
+  50% {
+    transform: scale(1.2) rotate(5deg);
   }
-  
-  .scrollbarMain::-webkit-scrollbar-thumb {
-    background-color: #161118; /* Darker color for the thumb */
-    border-radius: 10px;
-    border: 2px solid #bb39f7; /* Creates space around the thumb */
+  70% {
+    transform: scale(0.9) rotate(-3deg);
   }
-  
-  .scrollbarMain:hover::-webkit-scrollbar-thumb {
-    background-color: #161118; /* Darker color on hover */
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
   }
-  
+}
+
+.jack-in-the-box {
+  animation: jackInBox 0.8s ease-in-out;
+}

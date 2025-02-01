@@ -1,12 +1,14 @@
 import React from 'react'
 import { Avatar,Button } from '../../index'
+import { useSelector } from 'react-redux'
 
 const UpperCard = () => {
+    // const avatar = useSelector((state)=>state.auth.userData)
     return (
         <div className='w-full flex items-center justify-between '>
             <div className='flex items-center gap-5  pt-5'>
                 <div className=''>
-                    <Avatar className="w-14 h-14" src={"https://yt3.ggpht.com/xl5EH08el1YL4bmh1ww5xi0wxDUfQ_QmbqpoaphZy9qU2nnZUnbL7wTuBWNyp4Pb-VvkECw0=s88-c-k-c0x00ffffff-no-rj"} />
+                    <Avatar className="w-14 h-14" src="songsimg/sultan.jpg" />
                     </div>
                 <div>
                     <div className='text-[#aaa] font-medium text-lg'>Suraj</div>

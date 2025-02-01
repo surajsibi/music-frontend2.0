@@ -1,8 +1,9 @@
 import LoginSignup from "./pages/LoginSignup"
 import Homepage from "./pages/Homepage"
+import Musicpage from "./pages/Musicpage"
 import { Toaster } from "react-hot-toast"
 import Layout from "./Layout"
-import { Route,Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import './App.css'
 function App() {
 
@@ -11,32 +12,35 @@ function App() {
     <>
       <Routes>
         <Route
-        path="/"
-        element={<Layout/>}
-        >  
-        <Route
           path="/"
-          element={<Homepage/>}
-        />
-        
+          element={<Layout />}
+        >
+          <Route
+            path="/"
+            element={<Homepage />}
+          />
+          <Route
+            path="/music"
+            element={<Musicpage />}
+          />
+
         </Route>
-      </Routes>
-      <Routes>
+
         <Route
           path="/login"
-          element={<LoginSignup/>}
+          element={<LoginSignup />}
         />
       </Routes>
       <Toaster position="top-right" reverseOrder={true}
-                toastOptions={{
-                    error: {
-                        style: { borderRadius: "0", color: "red" },
-                    },
-                    success: {
-                        style: { borderRadius: "0", color: "green" },
-                    },
-                    duration: 2000,
-                }} />
+        toastOptions={{
+          error: {
+            style: { borderRadius: "0", color: "red" },
+          },
+          success: {
+            style: { borderRadius: "0", color: "green" },
+          },
+          duration: 2000,
+        }} />
     </>
   )
 }

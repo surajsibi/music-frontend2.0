@@ -33,6 +33,7 @@ export const userLogin =createAsyncThunk("login",async (data) =>{
         const response = await axiosInstance.post("/users/login",data);
         
         toast.success("login successfull")
+        
         return response.data.data.user
         
     } catch (error) {
@@ -74,21 +75,23 @@ const authSlice = createSlice({
             state.loading=false
             state.status=true
             state.userData=action.payload
+           
+            
         })
         builder.addCase(getCurrentUser.pending,(state,action)=>{
             state.loading=true
             state.status=false
-            state.userData =null
+            // state.userData =null
         })
         builder.addCase(getCurrentUser.fulfilled,(state,action)=>{
             state.loading=false
             state.status=true
-            state.userData = action.payload
+            // state.userData = action.payload
         })
         builder.addCase(getCurrentUser.rejected,(state,action)=>{
             state.loading=false
             state.status=false
-            state.userData=null
+            // state.userData=null
             toast.error("Error",action.payload)
         })
        

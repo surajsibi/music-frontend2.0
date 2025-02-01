@@ -1,0 +1,195 @@
+import React, { useState, useRef, useEffect } from 'react'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { LuThumbsUp, RxLoop, LuThumbsDown, FaPlay, IoPlaySkipForward, IoPlaySkipBackSharp, MdOutlinePlaylistAdd, IoMdArrowDropup, IoMdArrowDropdown, FaPause, RxAvatar } from "../../icons"
+import SliderMusic from './SliderMusic'
+import { useNavigate } from 'react-router-dom'
+import Howler from "react-howler"
+import { useSelector } from 'react-redux'
+
+
+const LowerSide = () => {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [isLooping, setIsLooping] = useState(false)
+  const [seekTime, setSeekTime] = useState(0);
+  const [isLiked, setIsliked] = useState(false)
+  const navigate = useNavigate()
+  const [arrow, setArrow] = useState("up")
+  const volume = useSelector(state => state.howler.volume)
+  const howlerRef = useRef(null)
+  const duration = 355
+  const currentSong = useSelector(state => state.howler.currentSong)
+
+
+
+  useEffect(() => {
+    let interval = null
+    if (isPlaying) {
+      interval = setInterval(() => {
+        if (howlerRef.current) {
+          const current = howlerRef.current.seek() // Get current time
+          setCurrentTime(current)
+        }
+      }, 500) // Update every 500ms
+    } else {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval) // Clean up
+  }, [isPlaying])
+
+  useEffect(() => {
+    if (howlerRef.current && seekTime !== currentTime) {
+      howlerRef.current.seek(seekTime); // Set the current time to the seek time
+    }
+  }, [seekTime]);
+
+
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+  }
+
+
+
+
+  const changeArrow = () => {
+    setArrow(prev => (prev == "up" ? "down" : "up"))
+    if (arrow == "up") {
+      navigate("/")
+    }
+  }
+
+  const toggleLoop = () => {
+    setIsLooping((prev) => !prev)
+  }
+
+  const toggleLike = () => {
+    setIsliked((prev) => !prev)
+
+  }
+
+
+
+
+  return (
+    <div>
+
+      <div className="flex items-center gap-x-2  w-full">
+        {/* Progress Bar */}
+        <input
+          type="range"
+          step="any"
+          className="w-full h-[2px] rounded-lg bg-gray-600  progressBar cursor-pointer"
+          min="0"
+          max={duration}
+          value={currentTime}
+          loop={isLooping}
+          onChange={(e) => setSeekTime(Number(e.target.value))} // Update seek time
+          onMouseUp={() => howlerRef.current.seek(seekTime)} // Seek on mouse release
+          onTouchEnd={() => howlerRef.current.seek(seekTime)} // Seek on touch release
+        />
+
+      </div>
+
+
+      <div className='w-full h-[10vh] items-center flex px-5 justify-between'>
+        <div className='flex items-center pl-5'>
+          <div className='w-[3.3vw]'>
+            <img className='w-full h-full rounded-md' src={currentSong?.image} />
+          </div>
+          <div className='text-white flex flex-col items-start ml-5  max-w-[15vw] min-w-[15vw]'>
+            <div className='truncate  max-w-[15vw] min-w-[15vw] font-bold text-base'>{currentSong?.title}</div>
+            <div className='truncate  max-w-[15vw] min-w-[15vw] '>{currentSong?.artist}</div>
+          </div>
+
+        </div>
+        <div className='flex items-center gap-x-5'>
+          <div className='cursor-pointer'><IoPlaySkipBackSharp color='white' size={20} /></div>
+          <div className='cursor-pointer transition-all duration-[2s] ' onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? <FaPause className='icon-transition icon-pause' color='white' size={25} /> : <FaPlay className='icon-transition icon-play' color='white' size={25} />}</div>
+          <div className='cursor-pointer'><IoPlaySkipForward color='white' size={20} /></div>
+          <div className='text-white text-sm'>
+            {formatTime(currentTime)}/{formatTime(duration)}
+          </div>
+          <div className='flex'>
+            <div className=' p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]'><LuThumbsDown color='white' size={20} /></div>
+            <div onClick={toggleLike} className={` ${isLiked ? "jack-in-the-box" : ""} animate__animated animate__jackInTheBox p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]`}><LuThumbsUp color={isLiked ? "transparent" : "white"} fill={isLiked ? "red" : ""} size={20} /></div>
+            <div className='py-1 px-1 rounded-[40%] flex items-center  hover:bg-gray-700'><MdOutlinePlaylistAdd color='white' size={24} /></div>
+            <div className='p-1 rounded-[50%] flex items-center relative '>
+              <Menu>
+                <MenuButton className="inline-flex items-center gap-2 rounded-md   text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
+                  <RxAvatar color='white' size={24} />
+                </MenuButton>
+                <MenuItems
+                  transition
+                  anchor="top center"
+                  className="w-40 origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                >
+                  <MenuItem>
+                    <button className="group flex w-full bg-black items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800 ">
+                      <div className='w-6 rounded-[50%] flex gap-x-3'>
+                        <img className='w-full h-full rounded-[40%]' src='https://c.saavncdn.com/artists/Papon_50x50.jpg'/>
+                        <div className='text-white'>Papon</div>
+                      </div>
+                    </button>
+                  </MenuItem>
+                  <MenuItem>
+                    <button className="group flex w-full bg-black items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800">
+                      <div className='w-6 rounded-[50%] flex gap-x-3'>
+                        <img className='w-full h-full rounded-[40%]' src='https://c.saavncdn.com/artists/Vishal-Shekhar_20191130071357_50x50.jpg'/>
+                        <div className='text-white'>Vishal &amp; Shekhar</div>
+                      </div>
+                    </button>
+                  </MenuItem>
+                  <MenuItem>
+                    <button className="group flex w-full bg-black items-center truncate gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800 ">
+                      <div className='w-6 rounded-[50%] flex gap-x-3'>
+                        <img className='w-full h-full rounded-[40%]' src='https://c.saavncdn.com/artists/Irshad_Kamil_50x50.jpg'/>
+                        <div className='text-white  '>Irshad kamil</div>
+                      </div>
+                    </button>
+                  </MenuItem>
+
+                </MenuItems>
+              </Menu>
+            </div>
+
+
+          </div>
+        </div>
+
+
+
+        <div className='flex  items-center  gap-x-2 '>
+          <div className='cursor-pointer  flex items-center w-[40%] gap-x-2'>
+            <SliderMusic />
+
+          </div>
+          <div className={`${isLooping ? "bg-[#476652]" : "hover:bg-[#3a3a3a]"}  p-2 rounded-[50%] flex items-center justify-center  `} onClick={toggleLoop}><RxLoop color='white' size={20} /></div>
+          <div onClick={changeArrow} className='  hover:bg-gray-600 items-center justify-center flex rounded-[50%] p-[0.2%]' >{arrow == "up" ? <IoMdArrowDropup size={24} color="white" /> : <IoMdArrowDropdown size={24} color="white" />}</div>
+        </div>
+
+        <div>
+          <Howler
+            src={currentSong?.src} // Add your song URL here
+            playing={isPlaying} // Controls the playback state
+            loop={false} // Set to true if you want the song to loop
+            volume={volume} // Set the initial volume (0 to 1)
+            ref={howlerRef}
+            onPlay={() => console.log("Audio is playing")}
+            onEnd={() => console.log("Song has ended")}
+          />
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  )
+}
+
+export default LowerSide

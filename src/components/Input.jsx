@@ -12,7 +12,7 @@ const Input = React.forwardRef(function Input({label,type="text",placeholder,cla
             <input
                 type={type}
                 placeholder={placeholder}
-                className={`px-3 py-[0.4rem] bg-[#3e3e3e] text-md rounded-lg text-white outline-none border-none w-[100%] my-[0.5%] ${className}`}
+                className={`px-3 py-[0.4rem] bg-[#3e3e3e] text-md rounded-lg text-black outline-none border-none w-[100%] my-[0.5%] ${className}`}
                 {...props}
                 ref={ref}
                 id={id}
