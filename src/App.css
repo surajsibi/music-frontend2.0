@@ -175,3 +175,33 @@
 .jack-in-the-box {
   animation: jackInBox 0.8s ease-in-out;
 }
+
+
+ /* scrollbar for playlist */
+
+.scrollbarPlaylist::-webkit-scrollbar {
+  height: 8px;
+  width: 5px;
+  /* Height of the scrollbar */
+
+}
+
+.scrollbarPlaylist::-webkit-scrollbar-track {
+  background: #000000;
+  /* Light gray background */
+  border-radius: 10px;
+  /* Rounded corners for the track */
+}
+
+.scrollbarPlaylist::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  /* Darker color for the thumb */
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  /* Creates space around the thumb */
+}
+
+.scrollbarPlaylist:hover::-webkit-scrollbar-thumb {
+  background-color: #1f2937;
+  /* Darker color on hover */
+}

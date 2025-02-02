@@ -19,6 +19,22 @@ const LowerSidebar = () => {
             title: "edghi",
             subtitle: "Auto Playlist"
         },
+        {
+            title: "Abcd",
+            subtitle: "user playlist"
+        },
+        {
+            title: "edghi",
+            subtitle: "Auto Playlist"
+        },
+        {
+            title: "Abcd",
+            subtitle: "user playlist"
+        },
+        {
+            title: "edghi",
+            subtitle: "Auto Playlist"
+        },
     ]
 
     const dispatch = useDispatch()
@@ -35,9 +51,9 @@ const LowerSidebar = () => {
                     <span className='text-white'>New Playlist</span>
                 </button>
             </div>
-            <div className='mt-3'>
-                {playlist.map((item)=>(
-                    <NavLink key={item.title} className="flex flex-col justify-center items-start pl-3    py-2">
+            <div className='mt-3 h-[53vh]  overflow-y-scroll scrollbarPlaylist overflow-x-hidden'>
+                {playlist.map((item,index)=>(
+                    <NavLink key={index} className="flex flex-col justify-center items-start pl-3    py-2 hover:bg-[#212121]">
                     <div className='text-white font-semibold text-base'>{item.title}</div>
                     <div className='text-white font-extralight text-xs'> {item.subtitle}</div>
                 </NavLink>

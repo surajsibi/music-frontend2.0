@@ -28,7 +28,8 @@ const TableCard = () => {
 
   
   const handleClick = (song) => {
-    dispatch(setCurrentSong(song))     
+    dispatch(setCurrentSong(song)) 
+        
   }
   return (
     <div className='my-10'>
