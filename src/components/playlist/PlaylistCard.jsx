@@ -2,18 +2,24 @@ import React from 'react'
 import { RxCross2,FaPlus } from "../../components/icons"
 import { changeSavePlaylist } from "../../store/Slice/utilsSlice"
 import { useDispatch,useSelector } from 'react-redux'
+import { addSongToPlaylist } from '../../store/Slice/playlistSlice'
 
 const PlaylistCard = () => {
   const dispatch = useDispatch()
-
-
+  const playlist = useSelector(state => state.playlist.playlists)
 const savePlaylist = useSelector(state => state.utils.savePlaylist)
 
-  const closeSavePlaylist =()=>{
-    if(savePlaylist === true){
-      dispatch(changeSavePlaylist(false))
-    }
+
+const saveToPlaylist=(id)=>{
+    dispatch(addSongToPlaylist({ songId: "67a4b260353da0efc670409b", playlistId: id }))  
   }
+  const closeSavePlaylist =()=>{
+    dispatch(changeSavePlaylist())
+    
+    
+    
+  }
+  console.log(playlist,"this is playlist");
 
   return (
     <div className='bg-[#212121] w-[35%] rounded-lg '>
@@ -25,7 +31,24 @@ const savePlaylist = useSelector(state => state.utils.savePlaylist)
         All playlist
       </div>
       <div>
-        <div className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2'>
+        {playlist.map((item,index)=>
+          (
+            <div onClick={() => { saveToPlaylist(item._id) }} key={index} className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2 cursor-pointer'>
+          <div className='max-w-12 rounded-lg'>
+            <img className='rounded-md' src={item.images?.[0]?.url} />
+          </div>
+          <div className=''>
+            <div className='text-white w-64 truncate font-bold'>{item?.name}</div>
+            <div className='text-[#aaa] font-semibold'>{item?.totalSongs} songs</div>
+          </div>
+        </div>
+          )
+        )}
+
+
+
+        
+        {/* <div className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2'>
           <div className='max-w-12 rounded-lg'>
             <img className='rounded-md' src='/utils/like.png' />
           </div>
@@ -43,6 +66,7 @@ const savePlaylist = useSelector(state => state.utils.savePlaylist)
             <div className='text-[#aaa] font-semibold'>25 songs</div>
           </div>
         </div>
+      </div> */}
       </div>
       <div onClick={closeSavePlaylist} className='flex w-full justify-end mb-2 px-6 cursor-pointer '>
       <div  className='flex bg-white w-36 p-2 gap-2 rounded-lg hover:bg-slate-200'>

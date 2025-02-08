@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const currentGenre = useSelector((state) => state.utils.currentGenre)
-  // const avatar = useSelector((state)=> state.auth.userData)
+  const avatar = useSelector((state)=> state.auth.userData)
   const navigate = useNavigate()
-  // console.log(avatar);
+  
   
   const dispatch = useDispatch()
   const handleLogoClick =()=>{
@@ -32,7 +32,7 @@ const Navbar = () => {
         <Search/>
       </div>
       <div className='rightSide mr-4' >
-        <Avatar  src="/songsimg/sultan.jpg" />
+        <Avatar  src={avatar?.avatar?.url} />
       </div>
     </nav>
   )

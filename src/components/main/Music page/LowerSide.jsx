@@ -5,6 +5,7 @@ import SliderMusic from './SliderMusic'
 import { useNavigate } from 'react-router-dom'
 import Howler from "react-howler"
 import { useSelector } from 'react-redux'
+import { current } from '@reduxjs/toolkit'
 
 
 const LowerSide = () => {
@@ -17,8 +18,8 @@ const LowerSide = () => {
   const [arrow, setArrow] = useState("up")
   const volume = useSelector(state => state.howler.volume)
   const howlerRef = useRef(null)
-  const duration = 355
   const currentSong = useSelector(state => state.howler.currentSong)
+  const duration = currentSong.duration
 
 
 
@@ -97,11 +98,13 @@ const LowerSide = () => {
       <div className='w-full h-[10vh] items-center flex px-5 justify-between'>
         <div className='flex items-center pl-5'>
           <div className='w-[3.3vw]'>
-            <img className='w-full h-full rounded-md' src={currentSong?.image} />
+            <img className='w-full h-full rounded-md' src={currentSong?.images?.[2]?.url} />
           </div>
           <div className='text-white flex flex-col items-start ml-5  max-w-[15vw] min-w-[15vw]'>
-            <div className='truncate  max-w-[15vw] min-w-[15vw] font-bold text-base'>{currentSong?.title}</div>
-            <div className='truncate  max-w-[15vw] min-w-[15vw] '>{currentSong?.artist}</div>
+            <div className='truncate  max-w-[15vw] min-w-[15vw] font-bold text-base'>{currentSong?.name}</div>
+            <div className='truncate  max-w-[15vw] min-w-[15vw] '>{current.artist?.map((art, index) => (
+    <NavLink key={index}>{art.name}{index !== artist.length - 1 ? ", " : ""}</NavLink>
+  ))}</div>
           </div>
 
         </div>
@@ -172,7 +175,7 @@ const LowerSide = () => {
 
         <div>
           <Howler
-            src={currentSong?.src} // Add your song URL here
+            src={currentSong?.songUrl} // Add your song URL here
             playing={isPlaying} // Controls the playback state
             loop={false} // Set to true if you want the song to loop
             volume={volume} // Set the initial volume (0 to 1)

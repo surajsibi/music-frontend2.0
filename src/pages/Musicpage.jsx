@@ -13,7 +13,7 @@ const Musicpage = () => {
         <div className=' h-[100%] w-[100%]'>
             <div className='h-[88%]   flex  pt-[2%] px-[9%]'>
                 <div className='h-full w-[60%]   flex justify-center items-center '>
-                    <img className='w-[88%] rounded-lg' src={currentSong?.image} />
+                    <img className='w-[88%] rounded-lg' src={currentSong?.images?.[2]?.url} />
                 </div>
                 <div className='h-full w-[40%]  '><RightSide/></div>
             </div>

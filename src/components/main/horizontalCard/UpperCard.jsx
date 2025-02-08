@@ -3,12 +3,12 @@ import { Avatar,Button } from '../../index'
 import { useSelector } from 'react-redux'
 
 const UpperCard = () => {
-    // const avatar = useSelector((state)=>state.auth.userData)
+    const avatar = useSelector((state)=>state.auth.userData)
     return (
         <div className='w-full flex items-center justify-between '>
             <div className='flex items-center gap-5  pt-5'>
                 <div className=''>
-                    <Avatar className="w-14 h-14" src="songsimg/sultan.jpg" />
+                    <Avatar className="w-14 h-14" src={avatar?.avatar?.url} />
                     </div>
                 <div>
                     <div className='text-[#aaa] font-medium text-lg'>Suraj</div>

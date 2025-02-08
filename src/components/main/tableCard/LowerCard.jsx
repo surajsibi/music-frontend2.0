@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { NavLink } from "react-router-dom";
 import  {MdOutlinePlaylistAdd} from "../../icons"
 import { changeSavePlaylist } from "../../../store/Slice/utilsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   FaPlay,
   CiHeart,
@@ -14,21 +14,27 @@ import {
   MdLibraryAdd,
   MdQueueMusic,
 } from "../../icons";
+import { savePlaylistId } from "../../../store/Slice/playlistSlice";
+
 
 const LowerCard = ({ index, title, image, artist }) => {
   const [isLiked, setIsLiked] = useState(false);
   const dispatch = useDispatch();
+  
 
- 
+ const id= useSelector((state)=>state.playlist.currentPlaylistId)
 
 
   const toggleLike = () => {
     setIsLiked(!isLiked);
   };
 
-  const toggleSavePlaylist=()=>{
+  const toggleSavePlaylist=(index)=>{
     dispatch(changeSavePlaylist())
-    console.log(index);
+    dispatch(savePlaylistId(index))
+    console.log(id,"id is");
+    
+    
     
   }
 
@@ -74,7 +80,7 @@ const LowerCard = ({ index, title, image, artist }) => {
         >
           {isLiked ? <FcLike size={25} /> : <CiHeart size={25} />}
         </div>
-        <div onClick={toggleSavePlaylist} className="cursor-pointer hidden group-hover:flex">
+        <div onClick={()=>{toggleSavePlaylist(index)}} className="cursor-pointer hidden group-hover:flex">
           <MdOutlinePlaylistAdd size={26} color="white"/>
         </div>
       </div>

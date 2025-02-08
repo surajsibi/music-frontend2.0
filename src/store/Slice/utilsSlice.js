@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import NewPlaylist from "../../components/playlist/NewPlaylist";
 const initialState ={
     isActive:false,
     currentGenre:"defaultGenre",

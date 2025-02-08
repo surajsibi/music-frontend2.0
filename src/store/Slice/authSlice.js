@@ -35,6 +35,7 @@ export const userLogin =createAsyncThunk("login",async (data) =>{
         toast.success("login successfull")
         
         return response.data.data.user
+
         
     } catch (error) {
         toast.error(error?.response?.data?.error)
