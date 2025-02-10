@@ -30,7 +30,7 @@ function App() {
             element={<Artist />}
           />
           <Route
-            path="/playlist"
+            path="/playlist/:id"
             element={<Playlist />}
           />
 

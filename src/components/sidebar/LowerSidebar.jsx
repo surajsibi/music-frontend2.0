@@ -4,32 +4,21 @@ import { NavLink } from 'react-router-dom'
 import {changeNewPlaylist} from "../../store/Slice/utilsSlice"
 import { useSelector,useDispatch } from 'react-redux'
 import {getAllPlaylist}  from "../../store/Slice/playlistSlice"
+import { useNavigate } from 'react-router-dom'
 
 
 const LowerSidebar = () => {
-    
-
+    const Navigate = useNavigate()
     const userData = useSelector((state)=>state.auth.userData)
     const playlist = useSelector((state)=>state.playlist.playlists)
 
 const dispatch = useDispatch()
-    
-
     useEffect(() => {
         async function fetchPlaylists() {
-            
             const result = await dispatch(getAllPlaylist(userData._id));
         }
         fetchPlaylists();
     }, [dispatch, userData]);
-
-
-
-
-
- 
-
-    
 
     const openNewPlaylist = ()=>{
         dispatch(changeNewPlaylist())
@@ -43,9 +32,9 @@ const dispatch = useDispatch()
                     <span className='text-white'>New Playlist</span>
                 </button>
             </div>
-            <div className='mt-3 h-[53vh]  overflow-y-scroll scrollbarPlaylist overflow-x-hidden'>
+            <div  className='mt-3 h-[53vh]  overflow-y-scroll scrollbarPlaylist overflow-x-hidden'>
                 {playlist.map((item,index)=>(
-                    <NavLink key={index} className="flex flex-col justify-center items-start px-4 w-full   py-2 hover:bg-[#212121]">
+                    <NavLink to={`/playlist/${item._id}`} key={index} className="flex flex-col justify-center items-start px-4 w-full   py-2 hover:bg-[#212121]">
                     <div className='text-white font-semibold text-base'>{item?.name}</div>
                     <div className='text-white font-extralight text-xs'> {item?.description}</div>
                 </NavLink>

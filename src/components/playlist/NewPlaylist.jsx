@@ -7,8 +7,9 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headless
 import clsx from 'clsx'
 import { useState } from 'react'
 import { changeNewPlaylist } from '../../store/Slice/utilsSlice';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createPlaylist } from '../../store/Slice/playlistSlice';
+import { addSongToPlaylist } from '../../store/Slice/playlistSlice';
 
 
 const NewPlaylist = () => {
@@ -17,7 +18,11 @@ const NewPlaylist = () => {
     { name: 'Private', icon: RiGitRepositoryPrivateLine },
   ]
   const dispatch = useDispatch();
-    
+  const songId = useSelector(state => state.utils.newPlaylist)
+  console.log(songId);
+
+
+
 
   const [selected, setSelected] = useState(select[0])
   const {
@@ -35,16 +40,21 @@ const NewPlaylist = () => {
     setValue("visibility", value.name); // Store the selected value in form data
   };
 
-  const submit =async (data) => {
-    
-    
-    const createdPlaylist = {name:data.title,description:data.description,isPublic:data.visibility === "Public" ? true : false}
+  const submit = async (data) => {
 
-    await dispatch(createPlaylist(createdPlaylist));
-    
+
+    const createdPlaylist = { name: data.title, description: data.description, isPublic: data.visibility === "Public" ? true : false }
+
+    const response = await dispatch(createPlaylist(createdPlaylist));
+
+    if (songId.songId) {
+      await dispatch(addSongToPlaylist({ songId: songId.songId, playlistId: response.payload._id }))
+
+    }
+
     await dispatch(changeNewPlaylist());
   }
-  const close=()=>{
+  const close = () => {
     dispatch(changeNewPlaylist());
   }
 
@@ -58,7 +68,7 @@ const NewPlaylist = () => {
     <div className='w-[60%] bg-[#212121] h-[60%]'>
       <div className='text-white py-5 px-8  font-bold text-2xl flex justify-between'>
         New playlist
-        <div onClick={close}  className='cursor-pointer hover:bg-gray-600 px-2 rounded-lg'>x</div>
+        <div onClick={close} className='cursor-pointer hover:bg-gray-600 px-2 rounded-lg'>x</div>
       </div>
       <div className='mt-2' >
         <form onSubmit={handleSubmit(submit)} className='px-5 flex flex-col gap-8'>
@@ -113,7 +123,7 @@ const NewPlaylist = () => {
                     <div className="text-sm/6 text-white flex gap-2 font-semibold">{person.icon && <person.icon size={22} color='white' />} {person.name} </div>
                   </ListboxOption>
                 ))}
-              </ListboxOptions> 
+              </ListboxOptions>
             </Listbox>
 
           </div>
@@ -126,7 +136,7 @@ const NewPlaylist = () => {
               children="Create"
             />
             <Button
-            onClick={handleReset}
+              onClick={handleReset}
               type="reset"
               className="bg-indigo-700 text-white uppercase px-6 py-2 rounded-md mt-4 text-sm font-semibold"
               children="Reset"

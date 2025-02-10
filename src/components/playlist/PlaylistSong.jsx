@@ -2,15 +2,18 @@ import React,{useState} from 'react'
 import { NavLink } from 'react-router-dom'
 import { FaPlay } from 'react-icons/fa'
 import {LuThumbsDown,LuThumbsUp} from "../icons" 
+import Artist from '../../pages/Artist'
 
-const PlaylistSong = () => {
+const PlaylistSong = ({song}) => {
     const [isLiked, setIsliked] = useState(false)
     const toggleLike = () => {
         setIsliked((prev) => !prev)
-    
       }
+
+      console.log(song,"this is song");
+      
     return (
-        <div className='mt-16 w-full'>
+        <div className='mt-8 w-full'>
 
             <div className=" flex w-full  justify-between px-4 items-center group ">
                 <div className='flex gap-5'>
@@ -22,12 +25,11 @@ const PlaylistSong = () => {
                         </div>
                         <img className='rounded-lg' src="/songsimg/sultan.jpg" />
                     </div>
-                    <div>
-                        <div>Bulleya</div>
-                        <div className='flex gap-[3px] '>
-                            <NavLink className="hover:underline">Vishal &amp; Shekhar,</NavLink>
-                            <NavLink className="hover:underline">Papon,</NavLink>
-                            <NavLink className="hover:underline">Irshad Kamil</NavLink>
+                    <div className='flex flex-col justify-center items-center'>
+                        <div className='text-lg font-medium w-64 '>{song.name}</div>
+                        <div className='flex gap-[3px] items-center w-72 truncate'>
+                            {song.artist.map((art)=>(<NavLink className="hover:underline">{art.name}</NavLink>))}
+                            
                         </div>
                     </div>
                 </div>

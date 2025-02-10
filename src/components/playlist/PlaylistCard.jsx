@@ -3,6 +3,7 @@ import { RxCross2,FaPlus } from "../../components/icons"
 import { changeSavePlaylist } from "../../store/Slice/utilsSlice"
 import { useDispatch,useSelector } from 'react-redux'
 import { addSongToPlaylist } from '../../store/Slice/playlistSlice'
+import { changeNewPlaylist } from '../../store/Slice/utilsSlice'
 
 const PlaylistCard = () => {
   const dispatch = useDispatch()
@@ -11,14 +12,16 @@ const savePlaylist = useSelector(state => state.utils.savePlaylist)
 
 
 const saveToPlaylist=(id)=>{
-    dispatch(addSongToPlaylist({ songId: "67a4b260353da0efc670409b", playlistId: id }))  
+    dispatch(addSongToPlaylist({ songId: "67a4b96f990decf582582ce3", playlistId: id }))  
   }
   const closeSavePlaylist =()=>{
-    dispatch(changeSavePlaylist())
-    
-    
-    
+    dispatch(changeSavePlaylist())  
+  };
+
+  const toogleNewPlaylist = () => {
+    dispatch(changeNewPlaylist("67a4b96f990decf582582ce3"))
   }
+
   console.log(playlist,"this is playlist");
 
   return (
@@ -30,16 +33,16 @@ const saveToPlaylist=(id)=>{
       <div className='text-white py-3 px-6 font-bold'>
         All playlist
       </div>
-      <div>
-        {playlist.map((item,index)=>
+      <div className='overflow-y-auto h-[40vh]  scrollbarPlaylist'>
+        {playlist?.map((item,index)=>
           (
-            <div onClick={() => { saveToPlaylist(item._id) }} key={index} className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2 cursor-pointer'>
+            <div onClick={() => { saveToPlaylist(item._id) }} key={index} className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2 cursor-pointer '>
           <div className='max-w-12 rounded-lg'>
-            <img className='rounded-md' src={item.images?.[0]?.url} />
+            <img className='rounded-md' src={item.songs?.[0]?.images?.[0].url} />
           </div>
           <div className=''>
             <div className='text-white w-64 truncate font-bold'>{item?.name}</div>
-            <div className='text-[#aaa] font-semibold'>{item?.totalSongs} songs</div>
+            <div className='text-[#aaa] font-semibold'>{item?.songs?.length} songs</div>
           </div>
         </div>
           )
@@ -68,7 +71,7 @@ const saveToPlaylist=(id)=>{
         </div>
       </div> */}
       </div>
-      <div onClick={closeSavePlaylist} className='flex w-full justify-end mb-2 px-6 cursor-pointer '>
+      <div onClick={toogleNewPlaylist} className='flex w-full justify-end mb-2 px-6 cursor-pointer '>
       <div  className='flex bg-white w-36 p-2 gap-2 rounded-lg hover:bg-slate-200'>
         <div><FaPlus color='black' size={22} /></div>
         <div className='font-bold'>New playlist</div>

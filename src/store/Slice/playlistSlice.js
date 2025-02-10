@@ -5,7 +5,8 @@ const initialState = {
     playlists:[],
     loading: false,
     isError:false,
-    currentPlaylistId: null
+    currentPlaylistId: null,
+    currentPlaylist:[]
 
 }
 
@@ -43,6 +44,15 @@ export const createPlaylist = createAsyncThunk("createPlaylist", async (data) =>
     }
 })
 
+export const getPlaylistById = createAsyncThunk("getPlaylistById", async (playlistId) => {
+    try {
+        const response  = await axiosInstance.get(`/playlists/${playlistId}`)
+        return response.data.data
+    } catch (error) {
+        throw error
+    }
+})
+
 const playlistSlice = createSlice({
     name: "playlist",
     initialState,
@@ -75,18 +85,24 @@ const playlistSlice = createSlice({
          builder.addCase(getAllPlaylist.rejected,(state)=>{
             state.isError = true
          });
-         builder.addCase(addSongToPlaylist.fulfilled,(state,action)=>{
-            state.playlists = state.playlists.map((playlist) => {
-                if (playlist.id === action.payload.playlistId) {
-                  return {
-                    ...playlist,
-                    songs: [...playlist.songs, action.payload.songId], // Add song
-                  };
-                }
-                return playlist; // Return the unchanged playlist if ID doesn't match
-              });
-              toast.success("Song added to playlist")
-         })
+         builder.addCase(addSongToPlaylist.fulfilled, (state, action) => {
+            const updatedPlaylist = action.payload; // This is a single playlist object
+            state.playlists = state.playlists.map(playlist =>
+                playlist._id === updatedPlaylist._id ? updatedPlaylist : playlist
+            );
+            toast.success("Song added to playlist");
+        });
+        builder.addCase(getPlaylistById.fulfilled, (state, action) => {
+            state.loading = false
+            state.currentPlaylist = action.payload
+        });
+        builder.addCase(getPlaylistById.rejected, (state) => {
+            state.isError = true
+        });
+        builder.addCase(getPlaylistById.pending, (state) => {
+            state.loading = true
+        })
+        
          
 
 }})

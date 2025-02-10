@@ -205,3 +205,33 @@
   background-color: #1f2937;
   /* Darker color on hover */
 }
+
+
+
+
+
+.scrollbarPlaylist::-webkit-scrollbar {
+  height: 8px;
+  /* Height of the scrollbar */
+
+}
+
+.scrollbarPlaylist::-webkit-scrollbar-track {
+  background: transparent;
+  /* Light gray background */
+  border-radius: 10px;
+  /* Rounded corners for the track */
+}
+
+.scrollbarPLaylist::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  /* Darker color for the thumb */
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+  /* Creates space around the thumb */
+}
+
+.scrollbarPLaylist:hover::-webkit-scrollbar-thumb {
+  background-color: #1f2937;
+  /* Darker color on hover */
+}

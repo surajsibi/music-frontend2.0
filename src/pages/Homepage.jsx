@@ -7,7 +7,7 @@ import NewPlaylist from '../components/playlist/NewPlaylist'
 
 const Homepage = () => {
   const savePlaylist = useSelector(state => state.utils.savePlaylist)
-  const newPlaylist = useSelector(state => state.utils.newPlaylist)
+  const newPlaylist = useSelector(state => state.utils.newPlaylist.value)
   return (
     <div>
       <div>
