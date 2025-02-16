@@ -26,7 +26,7 @@ function App() {
             element={<Musicpage />}
           />
           <Route
-            path="/artist"
+            path="/artist/:id"
             element={<Artist />}
           />
           <Route

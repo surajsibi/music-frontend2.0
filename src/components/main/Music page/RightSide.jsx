@@ -3,31 +3,21 @@ import React, { useState } from 'react'
 import { FaPlay } from "../../icons"
 import Lyrics from '../Lyrics'
 import { useSelector } from 'react-redux'
-const upNextSong = [
-  { title: "Bulleya(from sultan)", image: "/songsimg/sultan.jpg", artist: "vishal papon and arijit singh",src:"/songs/song1.m4a" },
-  { title: "Akho mai tere ajab se", image: "/songsimg/akho mai tere.jpg", artist: "KK,vishal papon and arijit singh",src:"/songs/ajab se.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "Bulleya(from sultan)", image: "/songsimg/sultan.jpg", artist: "vishal papon and arijit singh",src:"/songs/song1.m4a" },
-  { title: "Akho mai tere ajab se", image: "/songsimg/akho mai tere.jpg", artist: "KK,vishal papon and arijit singh ",src:"/songs/ajab se.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "Bulleya(from sultan)", image: "/songsimg/sultan.jpg", artist: "vishal papon and arijit singh ",src:"/songs/song1.m4a" },
-  { title: "Akho mai tere ajab se", image: "/songsimg/akho mai tere.jpg", artist: "KK,vishal papon and arijit singh ",src:"/songs/ajab se.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/Commute.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/Commute.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/Commute.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-  { title: "pal pal hai bhari", image: "/songsimg/Commute.jpg", artist: "ritik,KK,vishal papon and arijit singh ",src:"/songs/pal pal.m4a" },
-]
+
+
+
 
 
 const RightSide = () => {
   const [activeTab, setActiveTab] = useState("UP NEXT")
   const tabs = ["UP NEXT", "LYRICS"]
   const currentSong = useSelector(state => state.howler.currentSong)
-  console.log(currentSong,"ss");
+  const songs = useSelector(state => state.howler.songPlaylist)
+  function decodeHtmlEntities(text) {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(text, "text/html");
+    return doc.body.textContent;
+}
   
   return (
     <div className='text-white overflow-hidden h-[99%]'>
@@ -42,17 +32,17 @@ const RightSide = () => {
       {activeTab === "UP NEXT" &&
         <div className='overflow-x-scroll scrollbarMusic h-[67vh]'>
 
-          {upNextSong.map((song, index) => (
+          {songs.map((song, index) => (
             <button key={index} className=' w-full  py-3 px-5 flex gap-5 justify-start items-center group'>
               <div className='w-12 h-12 flex-shrink-0 relative'>
                 <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-0 items-center group-hover:opacity-100`}>
                   <FaPlay color="white" size={25} />
                 </div>
 
-                <img className='rounded-sm object-cover w-full h-full' src={song.image} /></div>
+                <img className='rounded-sm object-cover w-full h-full' src={song?.images?.[0]?.url} /></div>
               <div className='flex  flex-col items-start  w-full overflow-hidden  '>
-                <div className='truncate w-56 font-semibold text-start'>{song.title}</div>
-                <div className=' truncate w-56  text-[#a1a1a1] '>{song.artist}</div>
+                <div className='truncate w-56 font-semibold text-start'>{song.name}</div>
+                <div className=' truncate w-56  text-[#a1a1a1] '>{song.artists?.map((art, index) => (<span key={index}>{decodeHtmlEntities(art.name)}{index !== song.artists.length - 1 ? ", " : ""}</span>))}</div>
               </div>
             </button>
           ))}

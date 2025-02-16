@@ -15,7 +15,7 @@ import {
   MdQueueMusic,
 } from "../../icons";
 import { savePlaylistId } from "../../../store/Slice/playlistSlice";
-
+ 
 
 const LowerCard = ({ index, title, image, artist }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -32,15 +32,8 @@ const LowerCard = ({ index, title, image, artist }) => {
   const toggleSavePlaylist=(index)=>{
     dispatch(changeSavePlaylist())
     dispatch(savePlaylistId(index))
-    console.log(id,"id is");
-    
-    
-    
+   
   }
-
-
-
-
   
   return (
     <div className="flex relative mb-1  group">

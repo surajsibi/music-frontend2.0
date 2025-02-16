@@ -21,6 +21,7 @@ export const getAllPlaylist = createAsyncThunk("getAllPlaylist", async (userId) 
    }
 })
 
+
 export const addSongToPlaylist = createAsyncThunk("addSongToPlaylist", async ({songId,playlistId}) => {
     try {
         const response = await axiosInstance.patch(`playlists/${playlistId}/${songId}`)

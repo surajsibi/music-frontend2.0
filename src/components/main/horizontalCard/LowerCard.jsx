@@ -3,7 +3,12 @@ import {FaPlay} from "../../icons"
 import { NavLink } from 'react-router-dom'
 
 const LowerCard = ({song,onClick}) => {
-  const {name,images,songId,songUrl,_id,artist} = song
+  const {name,images,songId,songUrl,_id,artists} = song
+  function decodeHtmlEntities(text) {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(text, "text/html");
+    return doc.body.textContent;
+}
   
   
   return (
@@ -15,8 +20,8 @@ const LowerCard = ({song,onClick}) => {
         </div>
         <div className=''>
             <div className='text-white truncate font-semibold'>{name}</div>
-            <div className='text-[#eee] truncate'> {artist?.map((art, index) => (
-    <NavLink key={index}>{art.name}{index !== artist.length - 1 ? ", " : ""}</NavLink>
+            <div className='text-[#eee] truncate'> {artists?.map((art, index) => (
+    <NavLink key={index}>{decodeHtmlEntities(art.name)}{index !== artists.length - 1 ? ", " : ""}</NavLink>
   ))}</div>
         </div>
     </button>

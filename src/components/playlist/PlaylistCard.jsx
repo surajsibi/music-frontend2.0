@@ -2,24 +2,27 @@ import React from 'react'
 import { RxCross2,FaPlus } from "../../components/icons"
 import { changeSavePlaylist } from "../../store/Slice/utilsSlice"
 import { useDispatch,useSelector } from 'react-redux'
-import { addSongToPlaylist } from '../../store/Slice/playlistSlice'
+import { addSongToPlaylist, deletePlaylistId } from '../../store/Slice/playlistSlice'
 import { changeNewPlaylist } from '../../store/Slice/utilsSlice'
 
 const PlaylistCard = () => {
   const dispatch = useDispatch()
   const playlist = useSelector(state => state.playlist.playlists)
-const savePlaylist = useSelector(state => state.utils.savePlaylist)
+const currPlaylist = useSelector(state => state.playlist.currentPlaylistId)
+console.log(currPlaylist,"this is currPlaylist");
+
 
 
 const saveToPlaylist=(id)=>{
-    dispatch(addSongToPlaylist({ songId: "67a4b96f990decf582582ce3", playlistId: id }))  
+    dispatch(addSongToPlaylist({ songId: currPlaylist, playlistId: id }))  
+    dispatch(deletePlaylistId())
   }
   const closeSavePlaylist =()=>{
     dispatch(changeSavePlaylist())  
   };
 
   const toogleNewPlaylist = () => {
-    dispatch(changeNewPlaylist("67a4b96f990decf582582ce3"))
+    dispatch(changeNewPlaylist(""))
   }
 
   console.log(playlist,"this is playlist");
@@ -38,11 +41,11 @@ const saveToPlaylist=(id)=>{
           (
             <div onClick={() => { saveToPlaylist(item._id) }} key={index} className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2 cursor-pointer '>
           <div className='max-w-12 rounded-lg'>
-            <img className='rounded-md' src={item.songs?.[0]?.images?.[0].url} />
+            <img className='rounded-md' src={item.songs?.[0]?.images?.[0].url || item.song?.[0]?.image.url} />
           </div>
           <div className=''>
             <div className='text-white w-64 truncate font-bold'>{item?.name}</div>
-            <div className='text-[#aaa] font-semibold'>{item?.songs?.length} songs</div>
+            <div className='text-[#aaa] font-semibold'>{item?.song?.length} songs</div>
           </div>
         </div>
           )

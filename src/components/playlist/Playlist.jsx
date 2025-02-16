@@ -20,7 +20,7 @@ const PlaylistComponent = ({ id }) => {
         <>
 
 
-        {songs.length >=1 ?<div className=' w-full h-[90vh] flex relative overflow-y-hidden'>
+        {songs?.length >=1 ?<div className=' w-full h-[90vh] flex relative overflow-y-hidden'>
                 <div className='absolute inset-0 bg-black/60 w-full h-[50vh]     flex justify-center  items-center opacity-30'>
                     <img className='w-full h-full object-cover blur-2xl' src={songs ? songs?.[0]?.images?.[0]?.url : ""}
  />

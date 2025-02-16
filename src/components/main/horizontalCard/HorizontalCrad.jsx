@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentSong } from '../../../store/Slice/howler'
 import { getAllSongs } from '../../../store/Slice/songSlice'
 import Logo from '../../Logo'
-import { current } from '@reduxjs/toolkit'
-
+import { setPlaylist } from '../../../store/Slice/howler'
 const HorizontalCrad = () => {
   const dispatch = useDispatch()
   const songs = useSelector(state => state.song.songs)
@@ -16,14 +15,21 @@ const HorizontalCrad = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       await dispatch(getAllSongs());
-      
     };
-  
     fetchSongs();
    
   }, [dispatch]);
 
-  console.log(songs);
+  useEffect(()=>{
+    if(songs){
+      dispatch(setPlaylist(songs))
+    }
+
+  },[songs])
+
+
+
+  
   
   
   // const songs = [
@@ -50,7 +56,7 @@ const HorizontalCrad = () => {
     )
   }
 
- 
+ console.log(songs,"this is songs");  
   
   return (
     <div className='px-24'>

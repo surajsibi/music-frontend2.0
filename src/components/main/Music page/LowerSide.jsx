@@ -4,8 +4,12 @@ import { LuThumbsUp, RxLoop, LuThumbsDown, FaPlay, IoPlaySkipForward, IoPlaySkip
 import SliderMusic from './SliderMusic'
 import { useNavigate } from 'react-router-dom'
 import Howler from "react-howler"
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import { current } from '@reduxjs/toolkit'
+import { playNext,playPrev } from '../../../store/Slice/howler.js'
+import { changeSavePlaylist } from '../../../store/Slice/utilsSlice.js'
+import { savePlaylistId } from '../../../store/Slice/playlistSlice.js'
+
 
 
 const LowerSide = () => {
@@ -20,7 +24,16 @@ const LowerSide = () => {
   const howlerRef = useRef(null)
   const currentSong = useSelector(state => state.howler.currentSong)
   const duration = currentSong.duration
+  const dispatch = useDispatch()
+  const currPlaylist = useSelector(state => state.howler.songPlaylist)
+  function decodeHtmlEntities(text) {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(text, "text/html");
+    return doc.body.textContent;
+  }
 
+
+  
 
 
   useEffect(() => {
@@ -68,8 +81,14 @@ const LowerSide = () => {
 
   const toggleLike = () => {
     setIsliked((prev) => !prev)
-
   }
+
+  const toggleSavePlaylist =(songs)=>{
+    dispatch(changeSavePlaylist(songs))
+    dispatch(savePlaylistId(songs._id))
+    
+  }
+
 
 
 
@@ -103,22 +122,22 @@ const LowerSide = () => {
           <div className='text-white flex flex-col items-start ml-5  max-w-[15vw] min-w-[15vw]'>
             <div className='truncate  max-w-[15vw] min-w-[15vw] font-bold text-base'>{currentSong?.name}</div>
             <div className='truncate  max-w-[15vw] min-w-[15vw] '>{current.artist?.map((art, index) => (
-    <NavLink key={index}>{art.name}{index !== artist.length - 1 ? ", " : ""}</NavLink>
-  ))}</div>
+              <NavLink key={index}>{art.name}{index !== artist.length - 1 ? ", " : ""}</NavLink>
+            ))}</div>
           </div>
 
         </div>
         <div className='flex items-center gap-x-5'>
-          <div className='cursor-pointer'><IoPlaySkipBackSharp color='white' size={20} /></div>
+          <div onClick={() => dispatch(playPrev())} className='cursor-pointer'><IoPlaySkipBackSharp color='white' size={20} /></div>
           <div className='cursor-pointer transition-all duration-[2s] ' onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? <FaPause className='icon-transition icon-pause' color='white' size={25} /> : <FaPlay className='icon-transition icon-play' color='white' size={25} />}</div>
-          <div className='cursor-pointer'><IoPlaySkipForward color='white' size={20} /></div>
+          <div onClick={() => dispatch(playNext())} className='cursor-pointer'><IoPlaySkipForward color='white' size={20} /></div>
           <div className='text-white text-sm'>
             {formatTime(currentTime)}/{formatTime(duration)}
           </div>
           <div className='flex'>
             <div className=' p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]'><LuThumbsDown color='white' size={20} /></div>
             <div onClick={toggleLike} className={` ${isLiked ? "jack-in-the-box" : ""} animate__animated animate__jackInTheBox p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]`}><LuThumbsUp color={isLiked ? "transparent" : "white"} fill={isLiked ? "red" : ""} size={20} /></div>
-            <div className='py-1 px-1 rounded-[40%] flex items-center  hover:bg-gray-700'><MdOutlinePlaylistAdd color='white' size={24} /></div>
+            <div onClick={()=>{toggleSavePlaylist(currentSong)}} className='py-1 px-1 rounded-[40%] flex items-center  hover:bg-gray-700'><MdOutlinePlaylistAdd color='white' size={24} /></div>
             <div className='p-1 rounded-[50%] flex items-center relative '>
               <Menu>
                 <MenuButton className="inline-flex items-center gap-2 rounded-md   text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
@@ -127,9 +146,24 @@ const LowerSide = () => {
                 <MenuItems
                   transition
                   anchor="top center"
-                  className="w-40 origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                  className="w-40 overflow-y-auto h-56 scrollbarMain origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+
                 >
-                  <MenuItem>
+
+
+                  {currentSong?.artists && currentSong?.artists.map((artist, index) => (
+                    <MenuItem key={index} onClick={() => { navigate(`/artist/${artist._id}`) }} >
+                      <button className="group flex w-full bg-black items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800">
+                        <div className='w-6 rounded-[50%] flex gap-x-3'>
+                          <img className='w-full h-full rounded-[40%]' src={artist?.images?.[0]?.url} />
+                          <div className='text-white'>{decodeHtmlEntities(artist.name)}</div>
+                        </div>
+                      </button>
+                    </MenuItem>
+                  ))}
+
+
+                  {/* <MenuItem>
                     <button className="group flex w-full bg-black items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800 ">
                       <div className='w-6 rounded-[50%] flex gap-x-3'>
                         <img className='w-full h-full rounded-[40%]' src='https://c.saavncdn.com/artists/Papon_50x50.jpg'/>
@@ -152,7 +186,7 @@ const LowerSide = () => {
                         <div className='text-white  '>Irshad kamil</div>
                       </div>
                     </button>
-                  </MenuItem>
+                  </MenuItem> */}
 
                 </MenuItems>
               </Menu>
@@ -186,11 +220,6 @@ const LowerSide = () => {
         </div>
       </div>
     </div>
-
-
-
-
-
 
   )
 }

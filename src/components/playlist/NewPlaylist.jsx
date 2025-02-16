@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import { changeNewPlaylist } from '../../store/Slice/utilsSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { createPlaylist } from '../../store/Slice/playlistSlice';
+import { createPlaylist, deletePlaylistId } from '../../store/Slice/playlistSlice';
 import { addSongToPlaylist } from '../../store/Slice/playlistSlice';
 
 
@@ -18,8 +18,7 @@ const NewPlaylist = () => {
     { name: 'Private', icon: RiGitRepositoryPrivateLine },
   ]
   const dispatch = useDispatch();
-  const songId = useSelector(state => state.utils.newPlaylist)
-  console.log(songId);
+  const currSong = useSelector(state => state.playlist.currentPlaylistId)
 
 
 
@@ -47,8 +46,9 @@ const NewPlaylist = () => {
 
     const response = await dispatch(createPlaylist(createdPlaylist));
 
-    if (songId.songId) {
-      await dispatch(addSongToPlaylist({ songId: songId.songId, playlistId: response.payload._id }))
+    if (currSong) {
+      await dispatch(addSongToPlaylist({ songId: currSong, playlistId: response.payload._id }))
+      await dispatch(deletePlaylistId())
 
     }
 

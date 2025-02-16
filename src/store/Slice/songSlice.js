@@ -7,6 +7,7 @@ const initialState = {
     songs: [],
     isLoading: true,
     isError: false,
+
 }
 
 export const getAllSongs = createAsyncThunk("getAllSongs",async(data)=>{
@@ -17,11 +18,17 @@ export const getAllSongs = createAsyncThunk("getAllSongs",async(data)=>{
             throw error
         }
 })
+export const getSongById = createAsyncThunk("getSongById",async(data)=>{
+    const response = await axiosInsatnce.get(`/songs2/${data._id}`)
+})
 
 const songSlice = createSlice({
     name:"song",
     initialState,
-    reducers:{},
+    reducers:{
+       
+
+    },
     extraReducers:(builder)=>{
         builder.addCase(getAllSongs.pending,(state)=>{
             state.isLoading = true
@@ -36,5 +43,5 @@ const songSlice = createSlice({
         });
     }
 })
-
+export const { } = songSlice.actions;
 export default songSlice.reducer

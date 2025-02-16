@@ -7,6 +7,7 @@ const initialState = {
         value: false,
         songId: ""
     }
+    
 }
 const utilsSlice = createSlice({
     name: "utilsSlice",

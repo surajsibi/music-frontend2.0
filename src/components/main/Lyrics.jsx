@@ -12,7 +12,7 @@ const Lyrics = () => {
     // Replace `<br>` with `<br />` to make it JSX-compatible
     const processedLyrics = apiResponse.replaceAll('<br>', '<br/>');
     setLyrics(processedLyrics);
-  }, []); // Empty dependency array ensures this only runs once
+  }, [currentSong]); // Empty dependency array ensures this only runs once
 
   return (
     <div className='flex justify-center text-center' dangerouslySetInnerHTML={{ __html: lyrics }} />
