@@ -16,6 +16,8 @@ const PlaylistComponent = ({ id }) => {
     }, [id]);
     const currentPlaylist = useSelector(state => state.playlist.currentPlaylist)
     const songs = currentPlaylist?.[0]?.songs
+    console.log(songs,"this i s what it is")
+    
     return (
         <>
 
@@ -29,7 +31,7 @@ const PlaylistComponent = ({ id }) => {
                 <div className=' w-[35%] h-full z-10'>
                     <LeftsidePlaylist playlist={currentPlaylist} songs={songs} />
                 </div>
-                <div className='border text-white w-[65%] h-full z-10 mt-16 overflow-y-auto'>
+                <div className=' text-white w-[65%] h-full z-10 mt-16 overflow-y-auto'>
                     {songs.map((song)=>(<PlaylistSong song={song}/>))}
                 </div>          
         </div>: 

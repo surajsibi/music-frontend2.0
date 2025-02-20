@@ -39,6 +39,7 @@ export const createPlaylist = createAsyncThunk("createPlaylist", async (data) =>
         const response = await axiosInstance.post("/playlists/create-playlist", data)
         toast.success("Playlist created")
         return response.data.data
+        
     } catch (error) {
         toast.error(error?.response?.data?.error)
         throw error
@@ -91,6 +92,7 @@ const playlistSlice = createSlice({
             state.playlists = state.playlists.map(playlist =>
                 playlist._id === updatedPlaylist._id ? updatedPlaylist : playlist
             );
+            
             toast.success("Song added to playlist");
         });
         builder.addCase(getPlaylistById.fulfilled, (state, action) => {

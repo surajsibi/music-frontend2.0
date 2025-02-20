@@ -22,7 +22,7 @@ function App() {
             element={<Homepage />}
           />
           <Route
-            path="/music"
+            path="/music/:id"
             element={<Musicpage />}
           />
           <Route

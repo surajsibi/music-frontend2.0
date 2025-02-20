@@ -29,25 +29,10 @@ const HorizontalCrad = () => {
 
 
 
-  
-  
-  
-  // const songs = [
-  //   { title: "Bulleya2(from sultan)", image: "/songsimg/sultan.jpg", artist: "vishal papon and arijit singh", src: "https://aac.saavncdn.com/348/04edacbb0838b0bf5851a33e7d6cfeb3_160.mp4" },
-  //   { title: "Akho mai tere ajab se", image: "/songsimg/akho mai tere.jpg", artist: "KK,vishal papon and arijit singh ", src: "/songs/ajab se.m4a" },
-  //   { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ", src: "/songs/pal pal.m4a" },
-  //   { title: "Bulleya(from sultan)", image: "/songsimg/sultan.jpg", artist: "vishal papon and arijit singh ", src: "/songs/song1.m4a" },
-  //   { title: "Akho mai tere ajab se", image: "/songsimg/akho mai tere.jpg", artist: "KK,vishal papon and arijit singh ", src: "/songs/ajab se.m4a" },
-  //   { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ", src: "/songs/pal pal.m4a" },
-  //   { title: "Bulleya(from sultan)", image: "/songsimg/sultan.jpg", artist: "vishal papon and arijit singh ", src: "/songs/song1.m4a" },
-  //   { title: "Akho mai tere ajab se", image: "/songsimg/akho mai tere.jpg", artist: "KK,vishal papon and arijit singh ", src: "/songs/ajab se.m4a" },
-  //   { title: "pal pal hai bhari", image: "/songsimg/palpalhaibhari.jpg", artist: "ritik,KK,vishal papon and arijit singh ", src: "/songs/pal pal.m4a" },
-  //   { title: "pal pal hai bhari", image: "/songsimg/Commute.jpg", artist: "ritik,KK,vishal papon and arijit singh ", src: "/songs/pal pal.m4a" },
-  // ]
   const navigate = useNavigate()
   const handleClick = (song) => {
     dispatch(setCurrentSong(song))
-    navigate("/music")
+    navigate(`/music/${song._id}`)
   }
 
   if(loading){
@@ -56,7 +41,6 @@ const HorizontalCrad = () => {
     )
   }
 
- console.log(songs,"this is songs");  
   
   return (
     <div className='px-24'>

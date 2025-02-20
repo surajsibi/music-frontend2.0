@@ -18,9 +18,15 @@ export const getAllSongs = createAsyncThunk("getAllSongs",async(data)=>{
             throw error
         }
 })
-export const getSongById = createAsyncThunk("getSongById",async(data)=>{
-    const response = await axiosInsatnce.get(`/songs2/${data._id}`)
+export const getSongById = createAsyncThunk("getSongById",async(id)=>{
+   try {
+     const response = await axiosInsatnce.get(`/songs2/${id}`)
+     return response.data.data[0]
+   } catch (error) {
+    throw error    
+   }
 })
+
 
 const songSlice = createSlice({
     name:"song",
@@ -38,6 +44,17 @@ const songSlice = createSlice({
             state.songs = action.payload
         });
         builder.addCase(getAllSongs.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError = true
+        });
+        builder.addCase(getSongById.pending,(state)=>{
+            state.isLoading = true
+        }); 
+        builder.addCase(getSongById.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.currentSong = action.payload
+        });
+        builder.addCase(getSongById.rejected,(state,action)=>{
             state.isLoading = false
             state.isError = true
         });

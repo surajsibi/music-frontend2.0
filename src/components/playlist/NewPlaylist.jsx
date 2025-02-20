@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from "react-hook-form";
 import { Input, Button } from '../index'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -9,16 +9,23 @@ import { useState } from 'react'
 import { changeNewPlaylist } from '../../store/Slice/utilsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { createPlaylist, deletePlaylistId } from '../../store/Slice/playlistSlice';
-import { addSongToPlaylist } from '../../store/Slice/playlistSlice';
+import { addSongToPlaylist, getAllPlaylist } from '../../store/Slice/playlistSlice';
 
 
 const NewPlaylist = () => {
+  const userData = useSelector((state) => state.auth.userData)
   const select = [
     { name: 'Public', icon: MdPublic },
     { name: 'Private', icon: RiGitRepositoryPrivateLine },
   ]
   const dispatch = useDispatch();
   const currSong = useSelector(state => state.playlist.currentPlaylistId)
+  useEffect(() => {
+    async function fetchPlaylists() {
+      const result = await dispatch(getAllPlaylist(userData._id));
+    }
+    fetchPlaylists();
+  }, [dispatch, userData]);
 
 
 
@@ -45,14 +52,16 @@ const NewPlaylist = () => {
     const createdPlaylist = { name: data.title, description: data.description, isPublic: data.visibility === "Public" ? true : false }
 
     const response = await dispatch(createPlaylist(createdPlaylist));
-
     if (currSong) {
       await dispatch(addSongToPlaylist({ songId: currSong, playlistId: response.payload._id }))
+      await dispatch(getAllPlaylist(userData._id));
+
       await dispatch(deletePlaylistId())
 
     }
 
-    await dispatch(changeNewPlaylist());
+    dispatch(changeNewPlaylist());
+
   }
   const close = () => {
     dispatch(changeNewPlaylist());
@@ -63,6 +72,7 @@ const NewPlaylist = () => {
     setSelected(select[0])
   }
 
+  const playlist = useSelector(state => state.playlist.playlists)
 
   return (
     <div className='w-[60%] bg-[#212121] h-[60%]'>

@@ -23,6 +23,8 @@ const dispatch = useDispatch()
     const openNewPlaylist = ()=>{
         dispatch(changeNewPlaylist())
     }
+    console.log(playlist,"playlist");
+    
     return (
         <div>
 

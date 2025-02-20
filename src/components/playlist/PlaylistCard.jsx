@@ -1,31 +1,39 @@
-import React from 'react'
-import { RxCross2,FaPlus } from "../../components/icons"
+import React,{useEffect} from 'react'
+import { RxCross2, FaPlus } from "../../components/icons"
 import { changeSavePlaylist } from "../../store/Slice/utilsSlice"
-import { useDispatch,useSelector } from 'react-redux'
-import { addSongToPlaylist, deletePlaylistId } from '../../store/Slice/playlistSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addSongToPlaylist, deletePlaylistId, getAllPlaylist } from '../../store/Slice/playlistSlice'
 import { changeNewPlaylist } from '../../store/Slice/utilsSlice'
 
+
 const PlaylistCard = () => {
+  const userData = useSelector((state) => state.auth.userData)
   const dispatch = useDispatch()
   const playlist = useSelector(state => state.playlist.playlists)
-const currPlaylist = useSelector(state => state.playlist.currentPlaylistId)
-console.log(currPlaylist,"this is currPlaylist");
+  const currPlaylist = useSelector(state => state.playlist.currentPlaylistId)
 
-
-
-const saveToPlaylist=(id)=>{
-    dispatch(addSongToPlaylist({ songId: currPlaylist, playlistId: id }))  
-    dispatch(deletePlaylistId())
+  const saveToPlaylist = (id) => {
+    dispatch(addSongToPlaylist({ songId: currPlaylist, playlistId: id }))
+    dispatch(getAllPlaylist(userData._id))
   }
-  const closeSavePlaylist =()=>{
-    dispatch(changeSavePlaylist())  
+
+ useEffect(() => {
+        async function fetchPlaylists() {
+            const result = await dispatch(getAllPlaylist(userData._id));
+        }
+        fetchPlaylists();
+    }, [ userData]);
+
+    
+  const closeSavePlaylist = () => {
+    dispatch(deletePlaylistId())
+    dispatch(changeSavePlaylist())
   };
 
   const toogleNewPlaylist = () => {
     dispatch(changeNewPlaylist(""))
   }
 
-  console.log(playlist,"this is playlist");
 
   return (
     <div className='bg-[#212121] w-[35%] rounded-lg '>
@@ -37,23 +45,23 @@ const saveToPlaylist=(id)=>{
         All playlist
       </div>
       <div className='overflow-y-auto h-[40vh]  scrollbarPlaylist'>
-        {playlist?.map((item,index)=>
-          (
-            <div onClick={() => { saveToPlaylist(item._id) }} key={index} className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2 cursor-pointer '>
-          <div className='max-w-12 rounded-lg'>
-            <img className='rounded-md' src={item.songs?.[0]?.images?.[0].url || item.song?.[0]?.image.url} />
+        {playlist?.map((item, index) =>
+        (
+          <div onClick={() => { saveToPlaylist(item._id) }} key={index} className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2 cursor-pointer '>
+            <div className='max-w-12 rounded-lg'>
+              <img className='rounded-md' src={item.songs?.[0]?.images?.[0].url || item.song?.[0]?.image?.[0]?.url} />
+            </div>
+            <div className=''>
+              <div className='text-white w-64 truncate font-bold'>{item?.name}</div>
+              <div className='text-[#aaa] font-semibold'>{item?.songs?.length} songs</div>
+            </div>
           </div>
-          <div className=''>
-            <div className='text-white w-64 truncate font-bold'>{item?.name}</div>
-            <div className='text-[#aaa] font-semibold'>{item?.song?.length} songs</div>
-          </div>
-        </div>
-          )
+        )
         )}
 
 
 
-        
+
         {/* <div className='flex gap-5 mb-4 px-6 hover:bg-[#2e2e2e] p-2'>
           <div className='max-w-12 rounded-lg'>
             <img className='rounded-md' src='/utils/like.png' />
@@ -75,10 +83,10 @@ const saveToPlaylist=(id)=>{
       </div> */}
       </div>
       <div onClick={toogleNewPlaylist} className='flex w-full justify-end mb-2 px-6 cursor-pointer '>
-      <div  className='flex bg-white w-36 p-2 gap-2 rounded-lg hover:bg-slate-200'>
-        <div><FaPlus color='black' size={22} /></div>
-        <div className='font-bold'>New playlist</div>
-      </div>
+        <div className='flex bg-white w-36 p-2 gap-2 rounded-lg hover:bg-slate-200'>
+          <div><FaPlus color='black' size={22} /></div>
+          <div className='font-bold'>New playlist</div>
+        </div>
       </div>
     </div>
   )

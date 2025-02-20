@@ -4,6 +4,8 @@ import PlaylistComponet from '../components/playlist/Playlist'
 
 const Playlist = () => {
   const { id } = useParams();
+  console.log(id,"this is id");
+  
   return (
     <div>
       <PlaylistComponet id={id}/>

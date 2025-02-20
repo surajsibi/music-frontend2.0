@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux'
 const RightSide = () => {
   const [activeTab, setActiveTab] = useState("UP NEXT")
   const tabs = ["UP NEXT", "LYRICS"]
-  const currentSong = useSelector(state => state.howler.currentSong)
   const songs = useSelector(state => state.howler.songPlaylist)
   function decodeHtmlEntities(text) {
     let parser = new DOMParser();
