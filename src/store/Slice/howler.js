@@ -5,15 +5,22 @@ const initialState = {
     duration: 0,
     currentSong: null,
     songPlaylist:[],
-    currentIndex:0
+    currentIndex:0,
+    playlistPlaylist:[],
+    inPlaylist:false,
+    isLoading:false
 }
 
 const howlerSlice = createSlice({
     name: 'howler',
     initialState,
     reducers: {
+        setInPlaylist: (state,action ) => { state.inPlaylist = action.payload },
         setPlaylist: (state, action) => {
             state.songPlaylist = [...action.payload]
+        },
+        setPlaylistPlaylist: (state, action) => {
+            state.playlistPlaylist = [...action.payload]
         },
         setCurrentSong: (state, action) => {
             state.currentSong = action.payload;
@@ -36,5 +43,5 @@ const howlerSlice = createSlice({
     }
 })
 
-export const { changeVolume, setDuration,setPlaylist, setCurrentSong, playNext, playPrev  } = howlerSlice.actions
+export const { changeVolume, setDuration,setPlaylist, setCurrentSong, playNext, playPrev ,setPlaylistPlaylist,setInPlaylist } = howlerSlice.actions
 export default howlerSlice.reducer

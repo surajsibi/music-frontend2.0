@@ -16,7 +16,6 @@ const PlaylistCard = () => {
     dispatch(addSongToPlaylist({ songId: currPlaylist, playlistId: id }))
     dispatch(getAllPlaylist(userData._id))
   }
-
  useEffect(() => {
         async function fetchPlaylists() {
             const result = await dispatch(getAllPlaylist(userData._id));

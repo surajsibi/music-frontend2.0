@@ -15,9 +15,7 @@ const PlaylistComponent = ({ id }) => {
         fetchCurrentPlaylist(id)
     }, [id]);
     const currentPlaylist = useSelector(state => state.playlist.currentPlaylist)
-    const songs = currentPlaylist?.[0]?.songs
-    console.log(songs,"this i s what it is")
-    
+    const songs = currentPlaylist?.[0]?.songs    
     return (
         <>
 

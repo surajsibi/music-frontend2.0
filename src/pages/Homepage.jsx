@@ -1,11 +1,19 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Genre, HorizontalCrad, TableCard } from '../components/main'
 import PlaylistCard from '../components/playlist/PlaylistCard'
 import { changeSavePlaylist,changeNewPlaylist } from '../store/Slice/utilsSlice'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import NewPlaylist from '../components/playlist/NewPlaylist'
+import { setInPlaylist } from '../store/Slice/howler'
 
 const Homepage = () => {
+const dispatch =useDispatch()
+const inPlaylist = useSelector((state) => state.howler.inPlaylist);
+  useEffect(() => {
+    dispatch(setInPlaylist(false))
+  }, []);
+  console.log(inPlaylist);
+  
   const savePlaylist = useSelector(state => state.utils.savePlaylist)
   const newPlaylist = useSelector(state => state.utils.newPlaylist.value)
   return (

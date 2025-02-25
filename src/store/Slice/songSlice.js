@@ -7,9 +7,10 @@ const initialState = {
     songs: [],
     isLoading: true,
     isError: false,
-
+    suggestions:[],
+    isLoadingSuggestion:false,
+    isLoadingAllSongs:false
 }
-
 export const getAllSongs = createAsyncThunk("getAllSongs",async(data)=>{
         try {
             const response = await axiosInsatnce.get("/songs2")
@@ -21,10 +22,19 @@ export const getAllSongs = createAsyncThunk("getAllSongs",async(data)=>{
 export const getSongById = createAsyncThunk("getSongById",async(id)=>{
    try {
      const response = await axiosInsatnce.get(`/songs2/${id}`)
-     return response.data.data[0]
+     return response?.data?.data?.[0]
    } catch (error) {
     throw error    
    }
+})
+export const getSuggestions = createAsyncThunk("getSuggestions",async(id)=>{
+    try{
+        const response  = await axiosInsatnce.post(`/songs2/${id}`)
+        return response.data.data
+    } catch(error){
+        throw error
+    }
+    
 })
 
 
@@ -37,14 +47,14 @@ const songSlice = createSlice({
     },
     extraReducers:(builder)=>{
         builder.addCase(getAllSongs.pending,(state)=>{
-            state.isLoading = true
+            state.isLoadingAllSongs = true
         });
         builder.addCase(getAllSongs.fulfilled,(state,action)=>{
-            state.isLoading = false
+            state.isLoadingAllSongs = false
             state.songs = action.payload
         });
         builder.addCase(getAllSongs.rejected,(state,action)=>{
-            state.isLoading = false
+            state.isLoadingAllSongs = false
             state.isError = true
         });
         builder.addCase(getSongById.pending,(state)=>{
@@ -56,6 +66,17 @@ const songSlice = createSlice({
         });
         builder.addCase(getSongById.rejected,(state,action)=>{
             state.isLoading = false
+            state.isError = true
+        });
+        builder.addCase(getSuggestions.pending,(state)=>{
+            state.isLoadingSuggestion = true
+        }); 
+        builder.addCase(getSuggestions.fulfilled,(state,action)=>{
+            state.isLoadingSuggestion = false
+            state.suggestions = action.payload            
+        });
+        builder.addCase(getSuggestions.rejected,(state,action)=>{
+            state.isLoadingSuggestion = false
             state.isError = true
         });
     }

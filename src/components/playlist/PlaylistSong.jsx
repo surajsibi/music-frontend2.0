@@ -23,7 +23,7 @@ const PlaylistSong = ({ song }) => {
     const handleClick=()=>{
         dispatch(setCurrentSong(song))
          
-        navigate("/music")
+        navigate(`/music/${song.songId}`)
     }
 
     console.log(song,"thisis songgg")
@@ -41,7 +41,7 @@ const PlaylistSong = ({ song }) => {
                         >
                             <FaPlay color="white" size={25} />
                         </div>
-                        <img className='rounded-lg' src="/songsimg/sultan.jpg" />
+                        <img className='rounded-lg' src={song.images?.[0]?.url} />
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <div className='text-lg font-medium w-64 '>{song.name}</div>

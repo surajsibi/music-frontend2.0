@@ -4,21 +4,21 @@ import { Avatar } from "../../components/index"
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setCurrentSong,setPlaylist } from '../../store/Slice/howler'
+import { setCurrentSong,setPlaylistPlaylist, } from '../../store/Slice/howler'
 
 const LeftsidePlaylist = ({ songs, playlist }) => {
   const userData = useSelector(state => state.auth.userData)
   const currentPlaylist = useSelector(state => state.playlist.currentPlaylist)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log(currentPlaylist,"this is current playlist");
   
-
-
+  
+  
+  
   const handleClick = () => {
     dispatch(setCurrentSong(currentPlaylist?.[0].songs?.[0])  )  
-    dispatch(setPlaylist(currentPlaylist?.[0].songs))
-    navigate("/music")
+    dispatch(setPlaylistPlaylist(currentPlaylist?.[0].songs))
+    navigate(`/music/${currentPlaylist?.[0].songs?.[0]?.songId}`)
 
   }
 

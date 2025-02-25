@@ -34,7 +34,6 @@ const LowerSide = () => {
   }
 
 
-  console.log(currentSong,"this is the current song ")
 
   
 
@@ -92,9 +91,6 @@ const LowerSide = () => {
     dispatch(savePlaylistId(songs._id))
     
   }
-
-
-
 
 
   return (

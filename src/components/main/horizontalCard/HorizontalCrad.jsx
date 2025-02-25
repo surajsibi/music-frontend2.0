@@ -10,7 +10,7 @@ import { setPlaylist } from '../../../store/Slice/howler'
 const HorizontalCrad = () => {
   const dispatch = useDispatch()
   const songs = useSelector(state => state.song.songs)
-  const loading = useSelector(state => state.song.isLoading)
+  const loading = useSelector(state => state.song.isLoadingAllSongs)
   
   useEffect(() => {
     const fetchSongs = async () => {
@@ -20,24 +20,23 @@ const HorizontalCrad = () => {
    
   }, [dispatch]);
 
-  useEffect(()=>{
-    if(songs){
-      dispatch(setPlaylist(songs))
-    }
-
-  },[songs])
+  // useEffect(()=>{
+  //   if(songs){
+  //     dispatch(setPlaylist(songs))
+  //   }
+  // },[songs])
 
 
 
   const navigate = useNavigate()
   const handleClick = (song) => {
     dispatch(setCurrentSong(song))
-    navigate(`/music/${song._id}`)
+    navigate(`/music/${song.songId}`)
   }
 
   if(loading){
     return (
-      <div>Loading...</div>
+      <div className='text-white'>Loading...</div>
     )
   }
 
