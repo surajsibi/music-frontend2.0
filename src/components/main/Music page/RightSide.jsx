@@ -5,7 +5,8 @@ import Lyrics from '../Lyrics'
 import { useSelector, useDispatch } from 'react-redux'
 import { getSuggestions } from "../../../store/Slice/songSlice"
 import { useNavigate } from 'react-router-dom'
-import { setCurrentSong } from '../../../store/Slice/howler'
+import { setInPlaylist, setPlaylist } from '../../../store/Slice/howler'
+import { set } from 'react-hook-form'
 
 
 
@@ -32,18 +33,42 @@ const RightSide = () => {
 
   const handleClick = (song) => {
     navigate(`/music/${song.songId}`)
-
+    dispatch(setInPlaylist(true))
   }
+
+
+  useEffect(() => {
+    dispatch(setInPlaylist(true))
+
+  }, []);
+
+  // console.log(currentSong, "this is currentSong");
+
+
   useEffect(() => {
     const fetchData = async () => {
-      if (!inPlaylist) {
+      if (inPlaylist) {
         await dispatch(getSuggestions(currentSong.songId))
+        dispatch(setInPlaylist(false))
       }
     }
     fetchData()
 
-  }, [howlerCurrentSong, dispatch]);
-  console.log(currentSong, "this is current song");
+
+  }, [currentSong]);
+  useEffect(() => {
+    const setData = async () => {
+      if (suggestions) {
+        dispatch(setPlaylist(suggestions))
+      }
+    }
+    setData()
+  }, [dispatch, suggestions]);
+
+
+
+
+
 
   return (
     <div className='text-white overflow-hidden h-[99%]'>
@@ -58,12 +83,12 @@ const RightSide = () => {
       {activeTab === "UP NEXT" &&
 
         <div className='overflow-x-scroll scrollbarMusic h-[67vh]'>
-          {inPlaylist ? playlist.map((song, index) => (
+          {inPlaylist ? playlist?.map((song, index) => (
             <button key={index} className=' w-full  py-3 px-5 flex gap-5 justify-start items-center group'>
               <div className='w-12 h-12 flex-shrink-0 relative'>
-                <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-0 items-center group-hover:opacity-100`}>
+                {currentSong.songId === song.songId && <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-100 items-center `}>
                   <FaPlay color="white" size={25} />
-                </div>
+                </div>}
 
                 <img className='rounded-sm object-cover w-full h-full' src={song?.images?.[0]?.url} /></div>
               <div className='flex  flex-col items-start  w-full overflow-hidden  '>
@@ -73,9 +98,12 @@ const RightSide = () => {
             </button>
 
           )) :
-            suggestions.map((song, index) => (
-              <button onClick={() => handleClick(song)} key={index} className=' w-full  py-3 px-5 flex gap-5 justify-start items-center group'>
+            suggestions?.map((song, index) => (
+              <button onClick={() => handleClick(song)} key={song.songId} className=' w-full  py-3 px-5 flex gap-5 justify-start items-center group'>
                 <div className='w-12 h-12 flex-shrink-0 relative'>
+                {currentSong.songId === song.songId && <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center  items-center `}>
+                  <FaPlay color="white" size={25} />
+                </div>}
                   <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-0 items-center group-hover:opacity-100`}>
                     <FaPlay color="white" size={25} />
                   </div>

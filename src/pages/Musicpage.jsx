@@ -23,10 +23,7 @@ const Musicpage = () => {
     useEffect(() => {
         if (id) {
             const fetchData = async () => {
-               await   dispatch(getSongById(id))
-                console.log(id, "id has changed")
-                console.log(responsesSong,"this is response songs");
-                
+               await   dispatch(getSongById(id))                
             }
             fetchData()
         }

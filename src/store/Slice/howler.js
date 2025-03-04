@@ -17,7 +17,7 @@ const howlerSlice = createSlice({
     reducers: {
         setInPlaylist: (state,action ) => { state.inPlaylist = action.payload },
         setPlaylist: (state, action) => {
-            state.songPlaylist = [...action.payload]
+            state.songPlaylist = action.payload
         },
         setPlaylistPlaylist: (state, action) => {
             state.playlistPlaylist = [...action.payload]

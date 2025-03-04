@@ -3,13 +3,14 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { LuThumbsUp, RxLoop, LuThumbsDown, FaPlay, IoPlaySkipForward, IoPlaySkipBackSharp, MdOutlinePlaylistAdd, IoMdArrowDropup, IoMdArrowDropdown, FaPause, RxAvatar } from "../../icons"
 import SliderMusic from './SliderMusic'
 import { useNavigate } from 'react-router-dom'
-import Howler from "react-howler"
-import { useSelector,useDispatch } from 'react-redux'
+import ReactHowler from 'react-howler';
+import { useSelector, useDispatch } from 'react-redux'
 import { current } from '@reduxjs/toolkit'
-import { playNext,playPrev } from '../../../store/Slice/howler.js'
+import { playNext, playPrev } from '../../../store/Slice/howler.js'
 import { changeSavePlaylist } from '../../../store/Slice/utilsSlice.js'
 import { savePlaylistId } from '../../../store/Slice/playlistSlice.js'
-import {toggleLike} from "../../../store/Slice/likeSlice.js"
+import { toggleLike } from "../../../store/Slice/likeSlice.js"
+import store from "../../../store/store.js"
 
 
 
@@ -19,6 +20,7 @@ const LowerSide = () => {
   const [isLooping, setIsLooping] = useState(false)
   const [seekTime, setSeekTime] = useState(0);
   const [isLiked, setIsliked] = useState(false)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const [arrow, setArrow] = useState("up")
   const volume = useSelector(state => state.howler.volume)
@@ -26,17 +28,30 @@ const LowerSide = () => {
   const currentSong = useSelector(state => state.howler.currentSong)
   const duration = currentSong.duration
   const dispatch = useDispatch()
-  const isLikedd = useSelector(state=>state.like.response)
+
+  useEffect(() => {
+    if (currentSong) {
+      setIsliked(currentSong.isLiked)
+    }
+  }
+    , [currentSong])
+
+
+
+
   function decodeHtmlEntities(text) {
     let parser = new DOMParser();
     let doc = parser.parseFromString(text, "text/html");
     return doc.body.textContent;
   }
 
+  useEffect(() => {
+    setLoading(true)
+  }, [currentSong]);
 
-
-  
-
+  const handleOnLoad = () => {
+    setLoading(false)
+  }
   useEffect(() => {
     let interval = null
     if (isPlaying) {
@@ -77,21 +92,64 @@ const LowerSide = () => {
   }
 
   const toggleLoop = () => {
-    
     setIsLooping((prev) => !prev)
   }
 
-  const handleToggleLike = (currentSong) => {
-    dispatch(toggleLike(currentSong))
-    setIsliked((prev) => !prev)
+  const handleToggleLike = async (currentSong) => {
+    const likedd = await dispatch(toggleLike(currentSong))
+    console.log(likedd?.payload?.[0]);
+    setIsliked(likedd?.payload?.[0].isLiked)
   }
-
-  const toggleSavePlaylist =(songs)=>{
+  const toggleSavePlaylist = (songs) => {
     dispatch(changeSavePlaylist(songs))
     dispatch(savePlaylistId(songs._id))
-    
   }
 
+
+  // console.log(songPlaylist, "this is song playlist");
+  const handleSongEnd = () => {
+    const updatedPlaylist = store.getState().howler.songPlaylist; // Get latest Redux state
+    const currentIndex = updatedPlaylist.findIndex(song => song.songId === currentSong.songId)
+    if (currentIndex == updatedPlaylist.length - 1) {
+      navigate(`/music/${updatedPlaylist[0].songId}`)
+    }
+    if (currentIndex == -1) {
+      navigate(`/music/${updatedPlaylist[0].songId}`)
+    }
+    else {
+      navigate(`/music/${updatedPlaylist[currentIndex + 1].songId}`)
+    }
+
+  }
+
+  const handleNext = () => {
+    const updatedPlaylist = store.getState().howler.songPlaylist; // Get latest Redux state
+    const currentIndex = updatedPlaylist.findIndex(song => song.songId === currentSong.songId)
+    if (currentIndex == updatedPlaylist.length - 1) {
+      navigate(`/music/${updatedPlaylist[0].songId}`)
+    }
+    if (currentIndex == -1) {
+      navigate(`/music/${updatedPlaylist[0].songId}`)
+    }
+    else {
+      navigate(`/music/${updatedPlaylist[currentIndex + 1].songId}`)
+    }
+  }
+  const handlePrev = () => {
+    const updatedPlaylist = store.getState().howler.songPlaylist; // Get latest Redux state
+    const currentIndex = updatedPlaylist.findIndex(song => song.songId === currentSong.songId)
+    if (currentIndex == 0) {
+      navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1].songId}`)
+    }
+    if (currentIndex == -1) {
+      navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1].songId}`)
+    }
+    else {
+      navigate(`/music/${updatedPlaylist[currentIndex - 1].songId}`)
+    }
+  }
+
+  console.log(currentSong, "this is current song")
 
   return (
     <div>
@@ -128,18 +186,18 @@ const LowerSide = () => {
 
         </div>
         <div className='flex items-center gap-x-5'>
-          <div onClick={() => dispatch(playPrev())} className='cursor-pointer'><IoPlaySkipBackSharp color='white' size={20} /></div>
+          <div onClick={() => handlePrev()} className='cursor-pointer'><IoPlaySkipBackSharp color='white' size={20} /></div>
           <div className='cursor-pointer transition-all duration-[2s] ' onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? <FaPause className='icon-transition icon-pause' color='white' size={25} /> : <FaPlay className='icon-transition icon-play' color='white' size={25} />}</div>
-          <div onClick={() => dispatch(playNext())} className='cursor-pointer'><IoPlaySkipForward color='white' size={20} /></div>
-          <div className='text-white text-sm'>
+          <div onClick={() => handleNext()} className='cursor-pointer'><IoPlaySkipForward color='white' size={20} /></div>
+          <div className='text-white text-sm  flex w-[6vw] justify-center'>
             {formatTime(currentTime)}/{formatTime(duration)}
           </div>
           <div className='flex'>
-          
-            <div onClick={()=>{handleToggleLike(currentSong)}} className={` ${isLiked ? "jack-in-the-box" : ""} animate__animated animate__jackInTheBox p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]`}><LuThumbsUp color={isLiked ? "transparent" : "white"} fill={isLiked ? "red" : ""} size={20} /></div>
-            <div onClick={()=>{toggleSavePlaylist(currentSong)}} className='py-1 px-1 rounded-[40%] flex items-center  hover:bg-gray-700'><MdOutlinePlaylistAdd color='white' size={24} /></div>
+
+            <div onClick={() => { handleToggleLike(currentSong) }} className={` ${isLiked ? "jack-in-the-box" : ""} animate__animated animate__jackInTheBox p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]`}><LuThumbsUp color={isLiked ? "transparent" : "white"} fill={isLiked ? "red" : ""} size={20} /></div>
+            <div onClick={() => { toggleSavePlaylist(currentSong) }} className='py-1 px-1 rounded-[40%] flex items-center  hover:bg-gray-700'><MdOutlinePlaylistAdd color='white' size={24} /></div>
             <div className='p-1 rounded-[50%] flex items-center relative '>
-          
+
               <Menu>
                 <MenuButton className="inline-flex items-center gap-2 rounded-md   text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
                   <RxAvatar color='white' size={24} />
@@ -159,7 +217,7 @@ const LowerSide = () => {
                       </button>
                     </MenuItem>
                   ))}
-                  
+
                 </MenuItems>
               </Menu>
             </div>
@@ -180,14 +238,15 @@ const LowerSide = () => {
         </div>
 
         <div>
-          <Howler
+          <ReactHowler
             src={currentSong?.songUrl} // Add your song URL here
             playing={isPlaying} // Controls the playback state
             loop={false} // Set to true if you want the song to loop
             volume={volume} // Set the initial volume (0 to 1)
             ref={howlerRef}
+            onLoad={handleOnLoad}
             onPlay={() => console.log("Audio is playing")}
-            onEnd={() => console.log("Song has ended")}
+            onEnd={handleSongEnd}
           />
         </div>
       </div>

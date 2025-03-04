@@ -11,7 +11,7 @@ const initialState = {
 export const toggleLike = createAsyncThunk("toggleLike",async(data)=>{
    try {
      const response = await axisoInstance.post(`/likes/song/${data._id}`,data.songId)
-     return response.data;
+     return response.data.data;
    } catch (error) {
     throw error
    }

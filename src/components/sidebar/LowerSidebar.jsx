@@ -23,7 +23,6 @@ const dispatch = useDispatch()
     const openNewPlaylist = ()=>{
         dispatch(changeNewPlaylist())
     }
-    console.log(playlist,"playlist");
     
     return (
         <div>
@@ -34,7 +33,7 @@ const dispatch = useDispatch()
                     <span className='text-white'>New Playlist</span>
                 </button>
             </div>
-            <div  className='mt-3 h-[53vh]  overflow-y-scroll scrollbarPlaylist overflow-x-hidden'>
+            <div  className='mt-3 h-[48vh]  overflow-y-scroll scrollbarPlaylist overflow-x-hidden'>
                 {playlist.map((item,index)=>(
                     <NavLink to={`/playlist/${item._id}`} key={index} className="flex flex-col justify-center items-start px-4 w-full   py-2 hover:bg-[#212121]">
                     <div className='text-white font-semibold text-base'>{item?.name}</div>

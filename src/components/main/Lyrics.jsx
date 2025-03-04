@@ -6,13 +6,13 @@ const Lyrics = () => {
   const currentSong = useSelector(state => state.howler.currentSong);
 
   useEffect(() => {
-    // Simulate fetching lyrics from an API
-    const apiResponse = currentSong.lyrics
+    if (!currentSong || !currentSong.lyrics) {
+      setLyrics('');
+      return;
+    }
 
-    // Replace `<br>` with `<br />` to make it JSX-compatible
-    const processedLyrics = apiResponse.replaceAll('<br>', '<br/>');
-    setLyrics(processedLyrics);
-  }, [currentSong]); // Empty dependency array ensures this only runs once
+    setLyrics(currentSong.lyrics.replace(/<br\s*\/?>/g, '<br />')); 
+  }, [currentSong]); 
 
   return (
     <div className='flex justify-center text-center' dangerouslySetInnerHTML={{ __html: lyrics }} />
