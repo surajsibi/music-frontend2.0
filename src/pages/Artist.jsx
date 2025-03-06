@@ -66,12 +66,13 @@ const Artist = () => {
 
 
     const playlist = useSelector((state) => state.howler.songPlaylist)
-    console.log(playlist, "this is playlist");
+
+
 
 
 
     const artist = useSelector((state) => state.artist.artists)
-    console.log(artist, "this is artist");
+
     useEffect(() => {
         if (artist?.songs) {
             dispatch(setPlaylist(artist.songs)); // Set playlist only when songs are updated
@@ -90,7 +91,6 @@ const Artist = () => {
             dispatch(getArtistTopSongs(artist.topSongs))
         }
     }, [artist]);
-    console.log(artistSongs, "this is artistSongs");
 
     return (
         <div className='mb-10'>
@@ -176,43 +176,43 @@ const Artist = () => {
             )}
 
 
-            {artistSongs?.[0]?.success &&<div className='px-16   flex flex-col  mt-10 '>
+            {artistSongs?.[0]?.success && <div className='px-16   flex flex-col  mt-10 '>
                 <div className='text-white text-3xl font-bold'>Top Songs</div>
                 <div className='mt-5 flex flex-col gap-6'>
-                {artistSongs?.map((art)=>(
-                    <NavLink
-                    // to={'/music'}
-                    key={art._id}
-                    //  onClick={(e) => { currentSong(art) }} 
-                    className='group  '>
-                    <div className='flex  items-center'>
-                        <div
-                            className='max-w-10 relative '
-                        >
-                            <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-0 items-center group-hover:opacity-100`}>
-                                <FaPlay color="white" size={25} />
+                    {artistSongs?.map((art) => (
+                        <NavLink
+                            // to={'/music'}
+                            key={art._id}
+                            //  onClick={(e) => { currentSong(art) }} 
+                            className='group  '>
+                            <div className='flex  items-center'>
+                                <div
+                                    className='max-w-10 relative '
+                                >
+                                    <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-0 items-center group-hover:opacity-100`}>
+                                        <FaPlay color="white" size={25} />
+                                    </div>
+                                    <img className='w-full h-full rounded-md' src={art?.data?.[0]?.image?.[0]?.url} />
+                                </div>
+                                <div className='text-white font-bold  w-56 max-w-56 truncate ml-16'>{art?.data?.[0]?.name}</div>
+                                <div className='text-[#9d9d9d] font-semibold  w-96 truncate'>
+                                    {art?.data?.[0]?.artists?.primary.map((artt, index) => (
+                                        <NavLink to={`/artist/${artt.id}`} onClick={(e) => e.stopPropagation()} key={index} className="hover:underline">
+                                            {index > 0 && ", "} {/* Adds a comma between names */}
+                                            {decodeHtmlEntities(artt.name)}
+                                        </NavLink>
+                                    ))}
+                                </div>
+
+
+                                <div className='  w-20 ml-16 text-[#9d9d9d] font-semibold'>{formatNumber(art?.data?.[0]?.playCount)}</div>
+
+                                {/* <div className='text-[#9d9d9d] font-semibold'>{art?.[0]?.album?.name}</div> */}
+                                <div className='text-[#9d9d9d] font-semibold  w-16 ml-16'>{formatTime(art?.data?.[0]?.duration)}</div>
                             </div>
-                            <img className='w-full h-full rounded-md' src={art?.data?.[0]?.image?.[0]?.url} />
-                        </div>
-                        <div className='text-white font-bold  w-56 max-w-56 truncate ml-16'>{art?.data?.[0]?.name}</div>
-                        <div className='text-[#9d9d9d] font-semibold  w-96 truncate'>
-                            {art?.data?.[0]?.artists?.primary.map((artt, index) => (
-                                <NavLink to={`/artist/${artt.id}`} onClick={(e) => e.stopPropagation()} key={index} className="hover:underline">
-                                    {index > 0 && ", "} {/* Adds a comma between names */}
-                                    {decodeHtmlEntities(artt.name)}
-                                </NavLink>
-                            ))}
-                        </div>
-
-
-                        <div className='  w-20 ml-16 text-[#9d9d9d] font-semibold'>{formatNumber(art?.data?.[0]?.playCount)}</div>
-
-                        {/* <div className='text-[#9d9d9d] font-semibold'>{art?.[0]?.album?.name}</div> */}
-                        <div className='text-[#9d9d9d] font-semibold  w-16 ml-16'>{formatTime(art?.data?.[0]?.duration)}</div>
-                    </div>
-                </NavLink>
-                )) 
-                 }
+                        </NavLink>
+                    ))
+                    }
                 </div>
             </div>}
 
