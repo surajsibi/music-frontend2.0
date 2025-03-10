@@ -12,6 +12,9 @@ import { useEffect } from 'react'
 import { getArtistById, getArtistTopSongs } from "../store/Slice/artistSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { setPlaylist } from '../store/Slice/howler'
+import { getArtistTopAlbum } from '../store/Slice/albumSlice.js'
+
+
 
 
 
@@ -72,6 +75,16 @@ const Artist = () => {
 
 
     const artist = useSelector((state) => state.artist.artists)
+    console.log(artist,"artist ")
+
+    useEffect(()=>{
+        if(artist?.topAlbums){
+            dispatch(getArtistTopAlbum(artist.topAlbums))
+        }
+    },[id])
+    const topAlbums = useSelector((state) => state.album.artistTopAlbum)
+    console.log(topAlbums,"this is top album");
+    
 
     useEffect(() => {
         if (artist?.songs) {

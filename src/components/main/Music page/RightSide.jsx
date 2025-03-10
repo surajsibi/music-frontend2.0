@@ -48,11 +48,15 @@ const RightSide = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (inPlaylist) {
-        await dispatch(getSuggestions(currentSong.songId))
+         dispatch(getSuggestions(currentSong.songId))
         dispatch(setInPlaylist(false))
       }
     }
     fetchData()
+
+    console.log(suggestions, "this is suggestions");
+    
+    
 
 
   }, [currentSong]);
@@ -65,6 +69,7 @@ const RightSide = () => {
     setData()
   }, [dispatch, suggestions]);
 
+        // console.log(currentSong, "this is currentSong")
 
 
 
@@ -81,6 +86,7 @@ const RightSide = () => {
         ))}
       </div>
       {activeTab === "UP NEXT" &&
+      
 
         <div className='overflow-x-scroll scrollbarMusic h-[67vh]'>
           {inPlaylist ? playlist?.map((song, index) => (
