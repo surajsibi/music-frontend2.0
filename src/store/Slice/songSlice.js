@@ -45,6 +45,10 @@ const songSlice = createSlice({
     initialState,
     reducers: {
 
+        setSuggestion:(state,action)=>{
+            state.suggestions = action.payload
+        },
+
         setNextSongOfSuggestions: (state, action) => {
             if (state.suggestions.length === 0 || !state.currentSong) return 
             const currentIndex = state.suggestions.findIndex(song => song.songId === state.currentSong.songId)
@@ -98,5 +102,5 @@ const songSlice = createSlice({
         });
     }
 })
-export const {setNextSongOfSuggestions } = songSlice.actions;
+export const {setNextSongOfSuggestions,setSuggestion } = songSlice.actions;
 export default songSlice.reducer
