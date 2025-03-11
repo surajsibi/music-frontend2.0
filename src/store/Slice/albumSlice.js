@@ -8,10 +8,10 @@ const initialState = {
 
 export const getArtistTopAlbum = createAsyncThunk(
   "getArtistTopAlbum",
-  async (artistsId) => {
+  async (albumsId) => {
     try {
       const response = await axiosInstance.post("/albums2/a/getAlbums", {
-        artistsId,
+        albumsId,
       });
       return response.data.data;
     } catch (error) {
