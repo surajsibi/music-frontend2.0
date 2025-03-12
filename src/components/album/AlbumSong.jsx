@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { FaPlay } from "../icons";
 import { LuThumbsUp } from "../icons";
+import { NavLink } from "react-router-dom";
 
 const AlbumSong = ({song}) => {
   const toggleLike = () => {
     console.log("hello");
   };
+
+  function decodeHtmlEntities(text) {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(text, "text/html");
+    return doc.body.textContent;
+  }
   
   console.log(song,"this is songsssss")
 
@@ -23,29 +30,29 @@ const AlbumSong = ({song}) => {
             </div>
             <img
               className="rounded-lg"
-              src="https://c.saavncdn.com/026/Ra-One-Hindi-2011-50x50.jpg"
+              src={song?.images?.[0]?.url}
             />
           </div>
           <div className="flex flex-col justify-center items-center">
-            <div className="text-lg font-medium w-64 ">Ra.One</div>
+            <div className="text-lg font-medium w-64 ">{song?.name}</div>
             <div className="flex gap-[3px] items-center w-72 truncate">
-              suraj,singh,bisht
+            {song?.artists?.map((artt, index) => (
+                              <NavLink
+                                to={`/artist/${artt.id}`}
+                                onClick={(e) => e.stopPropagation()}
+                                key={index}
+                                className="hover:underline"
+                              >
+                                {index > 0 && ", "}
+                                {decodeHtmlEntities(artt.name)}
+                              </NavLink>
+                            ))}
             </div>
           </div>
 
           <div className="flex items-center justify-center">
-            <div
-              onClick={toggleLike}
-              className={` ${
-                isLiked ? "jack-in-the-box" : ""
-              } animate__animated animate__jackInTheBox p-2 rounded-[50%] flex items-center justify-center hover:bg-[#3a3a3a]`}
-            >
-              <LuThumbsUp
-                color={isLiked ? "transparent" : "white"}
-                fill={isLiked ? "red" : "transparent"}
-                size={20}
-              />
-            </div>
+          <div className="mr-8">{song.playCount}</div>
+            
           </div>
         </div>
           <div className="mr-8">5:55</div>

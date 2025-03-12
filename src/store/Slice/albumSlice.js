@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   artistTopAlbum: [],
   currentAlbumSongs:[],
+  loadingSong:false
 };
 
 export const getArtistTopAlbum = createAsyncThunk(
@@ -49,6 +50,10 @@ const albumSlice = createSlice({
       })
       .addCase(getAlbumSongs.fulfilled,(state,action)=>{
         state.currentAlbumSongs = action.payload
+        state.loadingSong = false
+      })
+      .addCase(getAlbumSongs.pending,(state)=>{
+        state.loadingSong=true
       })
   },
 
