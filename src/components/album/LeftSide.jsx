@@ -2,27 +2,27 @@ import React from "react";
 import {FaPlay} from "../icons"
 
 
-const handleClick=()=>{
-    console.log("hello");
-    
-}
 
-const LeftSide = () => {
+const LeftSide = ({album}) => {
+  const handleClick=()=>{
+      console.log("hello");   
+  }
+  // console.log(album,"leftside")
   return (
     <div className="text-white flex items-center flex-col gap-5 ">
       <div className="w-72 flex justify-center mt-12">
         <img
           className="rounded-md"
-          src="https://c.saavncdn.com/026/Ra-One-Hindi-2011-500x500.jpg"
+          src={album?.images?.[2]?.url}
         />
       </div>
       <div className="flex  flex-col items-center justify-center gap-2">
-        <div className="text-2xl font-bold">RA.ONE</div>
+        <div className="text-2xl font-bold">{album?.name}</div>
         <div className="flex flex-col items-center justify-center ">
           <div className="text-[#aaa] font-bold text-xl  max-w-96 truncate">
-            2020 · English Album · Dua Lipaaaaaa
+            {album?.description}
           </div>
-          <div className="text-[#aaa] font-bold text-lg">13 tracks</div>
+          <div className="text-[#aaa] font-bold text-lg">{album?.songCount} tracks</div>
         </div>
         <button
           onClick={handleClick}

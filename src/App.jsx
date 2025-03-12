@@ -38,7 +38,6 @@ function App() {
             path="/album/:id"
             element={<Album/>}
           />
-
         </Route>
 
         <Route

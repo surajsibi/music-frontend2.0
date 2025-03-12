@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { FaPlay } from "../icons";
 import { LuThumbsUp } from "../icons";
 
-const AlbumSong = () => {
+const AlbumSong = ({song}) => {
   const toggleLike = () => {
     console.log("hello");
   };
+  
+  console.log(song,"this is songsssss")
 
   const [isLiked, setIsliked] = useState(true);
 

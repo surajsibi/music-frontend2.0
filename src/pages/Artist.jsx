@@ -16,12 +16,12 @@ const Artist = () => {
   const dispatch = useDispatch();
   const artistSongs = useSelector((state) => state?.artist?.artistTopSongs);
   const { id } = useParams();
-  console.log(id, "this is id");
+  // console.log(id, "this is id");
   useEffect(() => {
-    console.log("useEffect triggered with id:", id);
+    // console.log("useEffect triggered with id:", id);
 
     if (id) {
-      console.log("Dispatching getArtistById with id:", id);
+      // console.log("Dispatching getArtistById with id:", id);
       dispatch(getArtistById(id));
     }
   }, [id]);
@@ -94,6 +94,11 @@ const Artist = () => {
   const handlePlay = () => {
     setCurrently("songs");
   };
+
+
+  // const handleClick = (art) =>{
+  // navigate(`/album/${art?.albumId}`)
+  // }
 
 
 
@@ -249,11 +254,12 @@ const Artist = () => {
                   : "opacity-0 translate-y-5"
               }`}
             >
+            
               {activeTab === "Top Album" && topAlbumss.length > 0 && (
                 <div className="px-16 flex flex-col mt-2 ">
                   <div className="mt-5 flex flex-col gap-6 mb-10">
                     {topAlbumss?.map((art) => (
-                      <NavLink key={art.albumId} className="group">
+                      <div onClick={()=>{navigate(`/album/${art.albumId}`)}} key={art.albumId} className="group">
                         <div className="flex items-center justify-around">
                           <div className="max-w-10 relative">
                             <div className="absolute inset-0 bg-black/60 transition-opacity duration-300 flex justify-center opacity-0 items-center group-hover:opacity-100">
@@ -274,7 +280,7 @@ const Artist = () => {
                             {formatNumber(art?.songCount)}
                           </div>
                         </div>
-                      </NavLink>
+                      </div>
                     ))}
                   </div>
                 </div>

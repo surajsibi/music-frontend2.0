@@ -4,6 +4,7 @@ import axiosInstance from "../../helpers/axiosInstance";
 const initialState = {
   isLoading: false,
   artistTopAlbum: [],
+  currentAlbumSongs:[],
 };
 
 export const getArtistTopAlbum = createAsyncThunk(
@@ -19,6 +20,16 @@ export const getArtistTopAlbum = createAsyncThunk(
     }
   }
 );
+export const getAlbumSongs = createAsyncThunk(
+  "getAlbumSongs",
+  async (albumId) => {
+    try {
+      const response = await axiosInstance.get(`/albums2/${albumId}`);
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  });
 
 const albumSlice = createSlice({
   name: "album",
@@ -35,8 +46,12 @@ const albumSlice = createSlice({
       })
       .addCase(getArtistTopAlbum.rejected, (state) => {
         state.isLoading = false;
-      });
+      })
+      .addCase(getAlbumSongs.fulfilled,(state,action)=>{
+        state.currentAlbumSongs = action.payload
+      })
   },
+
 });
 
 export default albumSlice.reducer;

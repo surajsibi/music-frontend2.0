@@ -1,12 +1,28 @@
-import React from 'react'
-import MainAlbum from '../components/album/MainAlbum'
+import React, { useEffect } from "react";
+import MainAlbum from "../components/album/MainAlbum";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getAlbumSongs } from "../store/Slice/albumSlice";
 
 const Album = () => {
-  return (
-    <div className='text-white '>
-      <MainAlbum/>
-    </div>
-  )
-}
+  const dispatch = useDispatch()
+  const { id } = useParams();
+  const albumSongs = useSelector((state) => state?.album?.currentAlbumSongs);
+  console.log(albumSongs, "this is album songss");
 
-export default Album
+  useEffect(() => {
+    console.log("inside useeffect");
+    
+    if (id) {
+      dispatch(getAlbumSongs(id))
+    }
+  }, [id,dispatch]);
+
+  return (
+    <div className="text-white ">
+      <MainAlbum id={id} />
+    </div>
+  );
+};
+
+export default Album;

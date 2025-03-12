@@ -217,7 +217,6 @@ const LowerSide = () => {
                       </button>
                     </MenuItem>
                   ))}
-
                 </MenuItems>
               </Menu>
             </div>

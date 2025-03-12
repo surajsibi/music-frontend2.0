@@ -21,6 +21,7 @@ const LeftsidePlaylist = ({ songs, playlist }) => {
     navigate(`/music/${currentPlaylist?.[0].songs?.[0]?.songId}`)
 
   }
+  // console.log(currentPlaylist,"this is currentPlaylist")
 
   return (
     <div className='text-white flex items-center flex-col gap-5  '>
