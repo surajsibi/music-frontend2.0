@@ -33,7 +33,7 @@ const PlaylistSong = ({ song }) => {
         <div  onClick={handleClick} className='mt-8 w-full '>
 
 
-            <div className=" flex w-full  justify-between px-4 items-center group ">
+            <div className="flex w-full  justify-between px-4 items-center group ">
                 <div className='flex gap-5'>
                     <div className='max-w-12 relative'>
                         <div
@@ -49,7 +49,6 @@ const PlaylistSong = ({ song }) => {
                             {song.artists?.map((art, index) => (
                                 <NavLink onClick={(e)=>{e.stopPropagation()}} className='hover:underline' to={`/artist/${art._id}`} key={index}>{decodeHtmlEntities(art.name)}{index !== song.artists.length - 1 ? ", " : ""}</NavLink>
                             ))}
-
                         </div>
                     </div>
                 </div>
