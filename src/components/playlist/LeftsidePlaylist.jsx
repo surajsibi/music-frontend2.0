@@ -12,8 +12,7 @@ const LeftsidePlaylist = ({ songs, playlist }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
-  
-  
+
   
   const handleClick = () => {
     dispatch(setCurrentSong(currentPlaylist?.[0].songs?.[0])  )  

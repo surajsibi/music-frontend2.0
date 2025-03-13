@@ -208,7 +208,7 @@ const LowerSide = () => {
                   className="w-40 overflow-y-auto h-45 scrollbarMain origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
                 >
                   {currentSong?.artists && currentSong?.artists.map((artist, index) => (
-                    <MenuItem key={index} onClick={() => { navigate(`/artist/${artist._id}`) }} >
+                    <MenuItem key={index} onClick={() => { navigate(`/artist/${artist.artistId}`) }} >
                       <button className="group flex w-full bg-black items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800">
                         <div className='w-6 rounded-[50%] flex gap-x-3'>
                           <img className='w-full h-full rounded-[40%]' src={artist?.images?.[0]?.url} />

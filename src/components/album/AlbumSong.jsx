@@ -8,18 +8,33 @@ const AlbumSong = ({song}) => {
     console.log("hello");
   };
 
+  function formatNumber(num) {
+    if (num >= 1_000_000_000) {
+      return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+    } else if (num >= 1_000_000) {
+      return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    } else if (num >= 1_000) {
+      return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return num?.toString();
+  }
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
   function decodeHtmlEntities(text) {
     let parser = new DOMParser();
     let doc = parser.parseFromString(text, "text/html");
     return doc.body.textContent;
   }
   
-  console.log(song,"this is songsssss")
+  // console.log(song,"this is songsssss")
 
   const [isLiked, setIsliked] = useState(true);
 
   return (
-    <div className="mt-8 w-full">
+    <div className="mt-8 w-full ">
       <div className="flex w-full  justify-between px-4 items-center group ">
         <div className="flex gap-5">
           <div className="max-w-12 relative">
@@ -51,11 +66,11 @@ const AlbumSong = ({song}) => {
           </div>
 
           <div className="flex items-center justify-center">
-          <div className="mr-8">{song.playCount}</div>
+          <div className="mr-8">{formatNumber(song.playCount)}</div>
             
           </div>
         </div>
-          <div className="mr-8">5:55</div>
+          <div className="mr-8">{formatTime(song.duration)}</div>
       </div>
     </div>
   );

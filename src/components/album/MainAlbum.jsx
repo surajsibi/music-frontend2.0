@@ -14,10 +14,10 @@ const MainAlbum = () => {
   const albumSongs = useSelector((state) => state?.album?.currentAlbumSongs);
   const loading = useSelector((state) => state?.album?.loadingSong);
   // console.log(albumSongs,"this is album songss");
-  console.log(id, "outside id");
+  // console.log(id, "outside id");
 
   useEffect(() => {
-    console.log(id, "inside id");
+    // console.log(id, "inside id");
     if (id) {
       dispatch(getAlbumSongs(id));
     }
@@ -38,7 +38,7 @@ const MainAlbum = () => {
         <div className=" w-[35%] h-full z-10">
           <LeftSide album={albumSongs} />
         </div>
-        <div className="text-white w-[65%] h-full z-10 mt-16 overflow-y-auto">
+        <div className="text-white w-[65%] h-full z-10 mt-16 overflow-y-auto scrollbar">
           {albumSongs?.songs.map((song) => (
             <AlbumSong song={song} key={song?.id} />
           ))}

@@ -5,7 +5,7 @@ const initialState = {
   isLoading: false,
   artistTopAlbum: [],
   currentAlbumSongs:[],
-  loadingSong:false
+  loadingSong:true
 };
 
 export const getArtistTopAlbum = createAsyncThunk(

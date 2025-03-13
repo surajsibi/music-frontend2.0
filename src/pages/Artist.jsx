@@ -45,6 +45,7 @@ const Artist = () => {
       .replace(/â€“/g, "–") // Fix en dash
       .replace(/â€”/g, "—"); // Fix em dash
   }
+  
 
   function formatNumber(num) {
     if (num >= 1_000_000_000) {
