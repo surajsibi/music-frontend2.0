@@ -5,7 +5,8 @@ const initialState = {
     loading: false,
     isError: false,
     artists: null,
-    artistTopSongs: null
+    artistTopSongs: null,
+    loadingTopSongs: false
 }
 
 export const getArtistById = createAsyncThunk("getArtistById", async (id) => {
@@ -36,10 +37,19 @@ const artistSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getArtistById.fulfilled, (state, action) => {
             state.artists = action.payload
+            state.loading = false
+        }),
+        builder.addCase(getArtistById.pending, (state) => {
+            state.loading = true
         }),
         builder.addCase(getArtistTopSongs.fulfilled, (state, action) => {
             state.artistTopSongs = action.payload
+            state.loadingTopSongs = false
+        }),
+        builder.addCase(getArtistTopSongs.pending, (state) => {
+            state.loadingTopSongs = true
         })
+        
     }
 
     

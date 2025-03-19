@@ -5,14 +5,17 @@ import { changeSavePlaylist,changeNewPlaylist } from '../store/Slice/utilsSlice'
 import { useSelector,useDispatch } from 'react-redux'
 import NewPlaylist from '../components/playlist/NewPlaylist'
 import { setInPlaylist } from '../store/Slice/howler'
+import { setInAlbum } from '../store/Slice/howler'
 
 const Homepage = () => {
 const dispatch =useDispatch()
 const inPlaylist = useSelector((state) => state.howler.inPlaylist);
   useEffect(() => {
     dispatch(setInPlaylist(false))
+    dispatch(setInAlbum(false))
+    
   }, []);
-  console.log(inPlaylist);
+  // console.log(inPlaylist);
   
   const savePlaylist = useSelector(state => state.utils.savePlaylist)
   const newPlaylist = useSelector(state => state.utils.newPlaylist.value)

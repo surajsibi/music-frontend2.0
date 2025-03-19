@@ -26,7 +26,7 @@ const LowerSide = () => {
   const volume = useSelector(state => state.howler.volume)
   const howlerRef = useRef(null)
   const currentSong = useSelector(state => state.howler.currentSong)
-  const duration = currentSong.duration
+  const duration = currentSong?.duration
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -36,6 +36,8 @@ const LowerSide = () => {
   }
     , [currentSong])
 
+
+    // console.log(currentSong,"this is cs")
 
 
 

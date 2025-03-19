@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 const initialState = {
     currentSong: null,
     songs: [],
-    isLoading: true,
+    isLoading: false,
     isError: false,
     suggestions: [],
     isLoadingSuggestion: false,

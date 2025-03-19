@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { FaPlay } from "../icons";
 import { LuThumbsUp } from "../icons";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AlbumSong = ({song}) => {
   const toggleLike = () => {
     console.log("hello");
   };
+  const navigate = useNavigate();
 
   function formatNumber(num) {
     if (num >= 1_000_000_000) {
@@ -29,12 +31,13 @@ const AlbumSong = ({song}) => {
     return doc.body.textContent;
   }
   
-  // console.log(song,"this is songsssss")
+  console.log(song,"this is songsssss") 
 
   const [isLiked, setIsliked] = useState(true);
+ 
 
   return (
-    <div className="mt-8 w-full ">
+    <div className="mt-8 w-full " onClick={()=>{navigate(`/music/${song?.songId}`)}}>
       <div className="flex w-full  justify-between px-4 items-center group ">
         <div className="flex gap-5">
           <div className="max-w-12 relative">

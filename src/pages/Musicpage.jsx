@@ -22,12 +22,17 @@ const Musicpage = () => {
     const { id } = useParams()
     useEffect(() => {
         if (id) {
+            console.log(id,"is tis");
+            
             const fetchData = async () => {
-               await   dispatch(getSongById(id))                
+                 dispatch(getSongById(id))                
             }
             fetchData()
         }
     }, [id, dispatch]); 
+    
+    console.log(responsesSong,"this is responsesSong");
+    
 
     useEffect(() => {
         if (responsesSong) {

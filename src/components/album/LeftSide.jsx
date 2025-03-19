@@ -1,6 +1,8 @@
 import React from "react";
 import {FaPlay} from "../icons"
-import { setCurrentSong,setPlaylistPlaylist } from "../../store/Slice/howler";
+import { setAlbumPlaylist, setInAlbumPlaylist } from "../../store/Slice/albumSlice";
+
+import {setPlaylist, setInAlbum} from "../../store/Slice/howler.js"
 import { useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 
@@ -9,13 +11,21 @@ import { useDispatch,useSelector } from "react-redux";
 const LeftSide = ({album}) => {
   const navigate =useNavigate()
   const dispatch = useDispatch()
+  const albumPlaylist = useSelector((state)=>state.howler.songPlaylist)
+
+  console.log(albumPlaylist,"this is album playlist");
+  
+ 
   const handleClick=()=>{
-      dispatch(setCurrentSong(album?.songs?.[0]))  
-      dispatch(setPlaylistPlaylist(album?.songs))
+      // dispatch(setInAlbumPlaylist(true))
+      dispatch(setPlaylist(album?.songs))
+      dispatch(setInAlbum(true))
+      // dispatch(setAlbumPlaylist(album?.songs))
       navigate(`/music/${album?.songs?.[0]?.songId}`)
-      // console.log(album.songs[0].id)
   }
-  console.log(album,"leftside")
+  // console.log(playlsist,"leftside")
+  // console.log(inAblumPlaylist);
+  
   return (
     <div className="text-white flex items-center flex-col gap-5 ">
       <div className="w-72 flex justify-center mt-12">

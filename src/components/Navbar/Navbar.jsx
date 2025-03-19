@@ -19,6 +19,7 @@ const Navbar = () => {
   }
   const handleHome = ()=>{
     dispatch(changeGenre("defaultGenre"))
+    
   }
   return (
     <nav className='bg-black flex justify-between p-[10px]'>

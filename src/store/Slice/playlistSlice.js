@@ -33,7 +33,6 @@ export const addSongToPlaylist = createAsyncThunk("addSongToPlaylist", async ({s
         
     }
 })
-
 export const createPlaylist = createAsyncThunk("createPlaylist", async (data) => {
     try {
         const response = await axiosInstance.post("/playlists/create-playlist", data)
@@ -59,6 +58,9 @@ const playlistSlice = createSlice({
     name: "playlist",
     initialState,
     reducers: {
+        setPlaylist:(state,action)=>{
+            state.playlists = action.payload
+        },
         savePlaylistId: (state, action) => {
             state.currentPlaylistId = action.payload
         },

@@ -10,22 +10,20 @@ import { getArtistById, getArtistTopSongs } from "../store/Slice/artistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setPlaylist } from "../store/Slice/howler";
 import { getArtistTopAlbum } from "../store/Slice/albumSlice.js";
-import { setSuggestion } from "../store/Slice/songSlice.js";
 
 const Artist = () => {
   const dispatch = useDispatch();
   const artistSongs = useSelector((state) => state?.artist?.artistTopSongs);
   const { id } = useParams();
+  const loadingArtist = useSelector((state) => state?.artist?.loading);
+  const loadingArtistTopSongs = useSelector(
+    (state) => state?.artist?.loadingTopSongs
+  );
+  const artist = useSelector((state) => state?.artist?.artists);
 
   useEffect(() => {
-    console.log("say hello");
-  }, [id]);
-  // console.log(id, "this is id");
-  useEffect(() => {
-    // console.log("useEffect triggered with id:", id);
-
     if (id) {
-      // console.log("Dispatching getArtistById with id:", id);
+      console.log(id)
       dispatch(getArtistById(id));
     }
   }, [id]);
@@ -45,7 +43,6 @@ const Artist = () => {
       .replace(/â€“/g, "–") // Fix en dash
       .replace(/â€”/g, "—"); // Fix em dash
   }
-  
 
   function formatNumber(num) {
     if (num >= 1_000_000_000) {
@@ -72,9 +69,8 @@ const Artist = () => {
   const [activeTab, setActiveTab] = useState("Top Songs");
   const tabs = ["Top Songs", "Top Album"];
 
-  const playlist = useSelector((state) => state.howler.songPlaylist);
 
-  const artist = useSelector((state) => state?.artist?.artists);
+
   console.log(artist, "artist ");
 
   useEffect(() => {
@@ -121,7 +117,12 @@ const Artist = () => {
   }, [artist]);
 
   //   console.log(artist?.topSongs, "this is top songsss");
-  console.log(artistSongs, "this is top songs of artist");
+  // console.log(artistSongs, "this is top songs of artist");
+  console.log(artist, "this is artist");
+
+  if (loadingArtist ) {
+    return <>loading ...........</>;
+  }
 
   return (
     <div className="mb-10">

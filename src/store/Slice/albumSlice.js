@@ -5,7 +5,9 @@ const initialState = {
   isLoading: false,
   artistTopAlbum: [],
   currentAlbumSongs:[],
-  loadingSong:true
+  loadingSong:true,
+  albumPlaylist:[],
+  inAblumPlaylist:false
 };
 
 export const getArtistTopAlbum = createAsyncThunk(
@@ -35,7 +37,14 @@ export const getAlbumSongs = createAsyncThunk(
 const albumSlice = createSlice({
   name: "album",
   initialState,
-  reducers: {},
+  reducers: {
+    setAlbumPlaylist:(state,action)=>{
+      state.albumPlaylist = action.payload
+    },
+    setInAlbumPlaylist:(state,action)=>{
+      state.inAblumPlaylist = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getArtistTopAlbum.pending, (state) => {
@@ -58,5 +67,7 @@ const albumSlice = createSlice({
   },
 
 });
+
+export const {setAlbumPlaylist, setInAlbumPlaylist} = albumSlice.actions
 
 export default albumSlice.reducer;
