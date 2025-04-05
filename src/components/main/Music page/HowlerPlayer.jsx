@@ -8,7 +8,7 @@ const HowlerPlayer = ({ isPlaying }) => {
   const howlerRef = useRef(null);
  
   const currentSong = useSelector(state => state.howler.currentSong)
-  console.log(currentSong)
+  // console.log(currentSong)
 
 
 

@@ -17,7 +17,7 @@ const MainAlbum = () => {
   // console.log(id, "outside id");
 
   useEffect(() => {
-    // console.log(id, "inside id");
+    console.log(id, "inside id");
     if (id) {
       dispatch(getAlbumSongs(id));
     }

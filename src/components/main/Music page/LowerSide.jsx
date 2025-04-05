@@ -31,7 +31,7 @@ const LowerSide = () => {
 
   useEffect(() => {
     if (currentSong) {
-      setIsliked(currentSong.isLiked)
+      setIsliked(currentSong?.isLiked)
     }
   }
     , [currentSong])
@@ -44,7 +44,7 @@ const LowerSide = () => {
   function decodeHtmlEntities(text) {
     let parser = new DOMParser();
     let doc = parser.parseFromString(text, "text/html");
-    return doc.body.textContent;
+    return doc?.body?.textContent;
   }
 
   useEffect(() => {
@@ -58,8 +58,8 @@ const LowerSide = () => {
     let interval = null
     if (isPlaying) {
       interval = setInterval(() => {
-        if (howlerRef.current) {
-          const current = howlerRef.current.seek() // Get current time
+        if (howlerRef?.current) {
+          const current = howlerRef?.current.seek() // Get current time
           setCurrentTime(current)
         }
       }, 500) // Update every 500ms
@@ -70,8 +70,8 @@ const LowerSide = () => {
   }, [isPlaying])
 
   useEffect(() => {
-    if (howlerRef.current && seekTime !== currentTime) {
-      howlerRef.current.seek(seekTime); // Set the current time to the seek time
+    if (howlerRef?.current && seekTime !== currentTime) {
+      howlerRef?.current.seek(seekTime); // Set the current time to the seek time
     }
   }, [seekTime]);
 
@@ -110,48 +110,48 @@ const LowerSide = () => {
 
   // console.log(songPlaylist, "this is song playlist");
   const handleSongEnd = () => {
-    const updatedPlaylist = store.getState().howler.songPlaylist; // Get latest Redux state
-    const currentIndex = updatedPlaylist.findIndex(song => song.songId === currentSong.songId)
-    if (currentIndex == updatedPlaylist.length - 1) {
-      navigate(`/music/${updatedPlaylist[0].songId}`)
+    const updatedPlaylist = store?.getState()?.howler?.songPlaylist; // Get latest Redux state
+    const currentIndex = updatedPlaylist?.findIndex(song => song?.songId === currentSong?.songId)
+    if (currentIndex == updatedPlaylist?.length - 1) {
+      navigate(`/music/${updatedPlaylist?.[0]?.songId}`)
     }
     if (currentIndex == -1) {
-      navigate(`/music/${updatedPlaylist[0].songId}`)
+      navigate(`/music/${updatedPlaylist?.[0]?.songId}`)
     }
     else {
-      navigate(`/music/${updatedPlaylist[currentIndex + 1].songId}`)
+      navigate(`/music/${updatedPlaylist[currentIndex + 1]?.songId}`)
     }
 
   }
 
   const handleNext = () => {
-    const updatedPlaylist = store.getState().howler.songPlaylist; // Get latest Redux state
-    const currentIndex = updatedPlaylist.findIndex(song => song.songId === currentSong.songId)
-    if (currentIndex == updatedPlaylist.length - 1) {
-      navigate(`/music/${updatedPlaylist[0].songId}`)
+    const updatedPlaylist = store?.getState()?.howler?.songPlaylist; // Get latest Redux state
+    const currentIndex = updatedPlaylist?.findIndex(song => song?.songId === currentSong?.songId)
+    if (currentIndex == updatedPlaylist?.length - 1) {
+      navigate(`/music/${updatedPlaylist?.[0]?.songId}`)
     }
     if (currentIndex == -1) {
-      navigate(`/music/${updatedPlaylist[0].songId}`)
+      navigate(`/music/${updatedPlaylist?.[0].songId}`)
     }
     else {
-      navigate(`/music/${updatedPlaylist[currentIndex + 1].songId}`)
+      navigate(`/music/${updatedPlaylist[currentIndex + 1]?.songId}`)
     }
   }
   const handlePrev = () => {
-    const updatedPlaylist = store.getState().howler.songPlaylist; // Get latest Redux state
-    const currentIndex = updatedPlaylist.findIndex(song => song.songId === currentSong.songId)
+    const updatedPlaylist = store?.getState()?.howler?.songPlaylist; // Get latest Redux state
+    const currentIndex = updatedPlaylist?.findIndex(song => song?.songId === currentSong?.songId)
     if (currentIndex == 0) {
-      navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1].songId}`)
+      navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1]?.songId}`)
     }
     if (currentIndex == -1) {
-      navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1].songId}`)
+      navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1]?.songId}`)
     }
     else {
-      navigate(`/music/${updatedPlaylist[currentIndex - 1].songId}`)
+      navigate(`/music/${updatedPlaylist[currentIndex - 1]?.songId}`)
     }
   }
 
-  console.log(currentSong, "this is current song")
+  // console.log(currentSong, "this is current song")
 
   return (
     <div>
@@ -181,8 +181,8 @@ const LowerSide = () => {
           </div>
           <div className='text-white flex flex-col items-start ml-5  max-w-[15vw] min-w-[15vw]'>
             <div className='truncate  max-w-[15vw] min-w-[15vw] font-bold text-base'>{currentSong?.name}</div>
-            <div className='truncate  max-w-[15vw] min-w-[15vw] '>{current.artist?.map((art, index) => (
-              <NavLink key={index}>{art.name}{index !== artist.length - 1 ? ", " : ""}</NavLink>
+            <div className='truncate  max-w-[15vw] min-w-[15vw] '>{current?.artist?.map((art, index) => (
+              <NavLink key={index}>{art?.name}{index !== artist?.length - 1 ? ", " : ""}</NavLink>
             ))}</div>
           </div>
 
@@ -214,7 +214,7 @@ const LowerSide = () => {
                       <button className="group flex w-full bg-black items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-800">
                         <div className='w-6 rounded-[50%] flex gap-x-3'>
                           <img className='w-full h-full rounded-[40%]' src={artist?.images?.[0]?.url} />
-                          <div className='text-white'>{decodeHtmlEntities(artist.name)}</div>
+                          <div className='text-white'>{decodeHtmlEntities(artist?.name)}</div>
                         </div>
                       </button>
                     </MenuItem>

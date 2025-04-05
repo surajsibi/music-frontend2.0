@@ -7,6 +7,7 @@ import playlistReducer from "./Slice/playlistSlice.js"
 import artistReducer from "./Slice/artistSlice.js"
 import likeReducer from "./Slice/likeSlice.js"
 import albumReducer from "./Slice/albumSlice.js"
+import searchReducer from "./Slice/search.js"
 
 const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
         playlist:playlistReducer,
         artist:artistReducer,
         like:likeReducer,
-        album:albumReducer
+        album:albumReducer,
+        search:searchReducer
     }
 })
 

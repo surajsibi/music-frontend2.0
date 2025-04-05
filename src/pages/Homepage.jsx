@@ -6,6 +6,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import NewPlaylist from '../components/playlist/NewPlaylist'
 import { setInPlaylist } from '../store/Slice/howler'
 import { setInAlbum } from '../store/Slice/howler'
+import SearchComponent from '../components/search/Search'
 
 const Homepage = () => {
 const dispatch =useDispatch()
@@ -39,7 +40,7 @@ const inPlaylist = useSelector((state) => state.howler.inPlaylist);
       {newPlaylist &&<div className=' w-[82vw] h-full absolute top-0 flex justify-center items-center '>
          <NewPlaylist/>
       </div>}
-
+      <SearchComponent/>
     </div>
     
   )

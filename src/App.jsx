@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast"
 import Layout from "./Layout"
 import { Route, Routes } from "react-router-dom"
 import './App.css'
+import Search from "./pages/Search"
 function App() {
 
 
@@ -37,6 +38,10 @@ function App() {
           <Route
             path="/album/:id"
             element={<Album/>}
+          />
+          <Route
+            path="/search/:querry"
+            element={<Search/>}
           />
         </Route>
 

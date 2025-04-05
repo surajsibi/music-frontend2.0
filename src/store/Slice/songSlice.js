@@ -10,7 +10,8 @@ const initialState = {
     suggestions: [],
     isLoadingSuggestion: false,
     isLoadingAllSongs: false,
-    nextSong:""
+    nextSong:"",
+    isLoadingSong:false
 }
 export const getAllSongs = createAsyncThunk("getAllSongs", async (data) => {
     try {
@@ -79,14 +80,14 @@ const songSlice = createSlice({
             state.isError = true
         });
         builder.addCase(getSongById.pending, (state) => {
-            state.isLoading = true
+            state.isLoadingSong = true
         });
         builder.addCase(getSongById.fulfilled, (state, action) => {
-            state.isLoading = false
+            state.isLoadingSong = false
             state.currentSong = action.payload
         });
         builder.addCase(getSongById.rejected, (state, action) => {
-            state.isLoading = false
+            state.isLoadingSong = false
             state.isError = true
         });
         builder.addCase(getSuggestions.pending, (state) => {

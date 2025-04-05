@@ -17,6 +17,8 @@ const Musicpage = () => {
     const song = useSelector((state) => state.howler.currentSong)
     const isLoading = useSelector((state) => state.song.isLoading)
     const isLoadingSuggestion = useSelector((state)=>state.song.isLoadingSuggestion)
+
+    const isLoadingSong = useSelector((state) => state.song.isLoadingSong)
     const responsesSong = useSelector((state) => state.song.currentSong)
 
     const { id } = useParams()
@@ -25,13 +27,19 @@ const Musicpage = () => {
             console.log(id,"is tis");
             
             const fetchData = async () => {
-                 dispatch(getSongById(id))                
+                dispatch(getSongById(id)) 
+                console.log("fetching data of id ",id);               
             }
             fetchData()
         }
     }, [id, dispatch]); 
+
+
+    useEffect(()=>{
+
+        console.log(responsesSong,"this is responsesSong");
+    },[responsesSong])
     
-    console.log(responsesSong,"this is responsesSong");
     
 
     useEffect(() => {
@@ -40,7 +48,7 @@ const Musicpage = () => {
         }
     }, [responsesSong, dispatch]);
 
-    if (isLoading && isLoadingSuggestion) {
+    if (isLoadingSong ) {
         return (
             <div className='text-white'>Plz wait while Loading......</div>
         )
