@@ -7,18 +7,12 @@ import { setCurrentSong } from '../../../store/Slice/howler'
 import { getAllSongs } from '../../../store/Slice/songSlice'
 import Logo from '../../Logo'
 import { setPlaylist } from '../../../store/Slice/howler'
-const HorizontalCrad = () => {
+const HorizontalCrad = ({songs}) => {
   const dispatch = useDispatch()
-  const songs = useSelector(state => state.song.songs)
+  // const songs = useSelector(state => state.song.songs)
   const loading = useSelector(state => state.song.isLoadingAllSongs)
   
-  useEffect(() => {
-    const fetchSongs = async () => {
-      await dispatch(getAllSongs());
-    };
-    fetchSongs();
-   
-  }, [dispatch]);
+
 
   // useEffect(()=>{
   //   if(songs){

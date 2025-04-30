@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axiosInsatnce from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
+import { MdNewReleases } from "react-icons/md";
 
 const initialState = {
     currentSong: null,
@@ -11,8 +12,20 @@ const initialState = {
     isLoadingSuggestion: false,
     isLoadingAllSongs: false,
     nextSong:"",
-    isLoadingSong:false
+    isLoadingSong:false,
+    trending:[]
 }
+
+export const getNewReleased = createAsyncThunk("getNewReleased",async()=>{
+    try {
+        const response = await axiosInsatnce.get("/songs2/song/trending")
+        return response.data.data
+    } catch (error) {
+        throw error
+    }
+})
+
+
 export const getAllSongs = createAsyncThunk("getAllSongs", async (data) => {
     try {
         const response = await axiosInsatnce.get("/songs2")
@@ -101,6 +114,9 @@ const songSlice = createSlice({
             state.isLoadingSuggestion = false
             state.isError = true
         });
+        builder.addCase(getNewReleased.fulfilled,(state,action)=>{
+            state.trending = action.payload
+        })
     }
 })
 export const {setNextSongOfSuggestions,setSuggestion } = songSlice.actions;

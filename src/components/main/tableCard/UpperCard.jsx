@@ -5,7 +5,7 @@ const UpperCard = () => {
   return (
     <div className='text-white flex justify-between items-center'>
       <div className='text-3xl font-bold text-center'>
-        Quick picks
+        Trending Song
       </div>
       <div className='flex justify-center items-center'>
         <Button

@@ -11,8 +11,8 @@ const UpperCard = () => {
                     <Avatar className="w-14 h-14" src={avatar?.avatar?.url} />
                     </div>
                 <div>
-                    <div className='text-[#aaa] font-medium text-lg'>Suraj</div>
-                    <div className='text-3xl font-bold'>Listen again</div>
+                    <div className='text-[#aaa] font-medium text-lg'>Riya</div>
+                    <div className='text-3xl font-bold'>For You</div>
                 </div>
             </div>
             <div className='flex items-center'>

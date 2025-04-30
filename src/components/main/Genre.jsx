@@ -35,6 +35,7 @@ const Genre = () => {
         Sleep: SleepImage,
         defaultGenre: HomeImage
     };
+    
 
 
     return (

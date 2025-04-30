@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../helpers/axiosInstance";
 const initialState = {
     isActive: false,
     currentGenre: "defaultGenre",
@@ -6,9 +7,14 @@ const initialState = {
     newPlaylist: {
         value: false,
         songId: ""
-    }
-    
+    },
+    newReleased:[]
 }
+
+
+
+
+
 const utilsSlice = createSlice({
     name: "utilsSlice",
     initialState,
