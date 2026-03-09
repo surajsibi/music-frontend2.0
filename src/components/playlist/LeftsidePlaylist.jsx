@@ -23,15 +23,19 @@ const LeftsidePlaylist = ({ songs, playlist }) => {
   // console.log(currentPlaylist,"this is currentPlaylist")
 
   return (
-    <div className='text-white flex items-center flex-col gap-5  '>
-      <div className='w-72 flex justify-center mt-12 '>
-        <img className='rounded-md' src={songs ? songs?.[0]?.images?.[2]?.url : ""} />
+    <div className="text-white flex items-center flex-col gap-5">
+      <div className="w-full max-w-[240px] px-4 flex justify-center mt-12">
+        <img
+          className="w-full aspect-square object-cover rounded-lg shadow-xl"
+          src={songs ? songs?.[0]?.images?.[2]?.url : ""}
+          alt=""
+        />
       </div>
-      <div className='flex  flex-col items-center justify-center gap-2'>
-        <div className='text-2xl font-bold'>{playlist?.[0]?.name}</div>
-        <div className='flex items-center gap-2'>
-          <div clas>
-            <Avatar src={userData.avatar.url} className={"w-8 h-8"} />
+      <div className="flex flex-col items-center justify-center gap-2 px-4 text-center">
+        <div className="text-2xl font-bold truncate max-w-full">{playlist?.[0]?.name}</div>
+        <div className="flex items-center gap-2">
+          <div>
+            <Avatar src={userData?.avatar?.url} className="w-8 h-8" />
           </div>
           <div className='text-sm'>{userData.username}</div>
         </div>

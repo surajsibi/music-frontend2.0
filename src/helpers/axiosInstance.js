@@ -1,11 +1,9 @@
 import axios from "axios"
 import {BASE_URL} from "../constants"
 
-const axisoInstance =axios.create();
+const axiosInstance = axios.create();
 
+axiosInstance.defaults.baseURL = BASE_URL;
+axiosInstance.defaults.withCredentials = true;
 
-axisoInstance.defaults.baseURL = BASE_URL;
-axisoInstance.defaults.withCredentials = true;
-
-
-export default axisoInstance
+export default axiosInstance;

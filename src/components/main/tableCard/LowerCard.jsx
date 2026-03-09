@@ -47,7 +47,15 @@ const LowerCard = ({ index, title, image, artist }) => {
             >
               <FaPlay color="white" size={25} />
             </div>
-            <img className="w-full" src={image} alt="Song Thumbnail" />
+            <img
+              className="w-full"
+              src={
+                Array.isArray(image)
+                  ? (image[0]?.url ?? image[0])
+                  : (image?.url ?? image)
+              }
+              alt="Song Thumbnail"
+            />
           </div>
           <div className="flex gap-2 justify-center items-start">
             <div className="truncate relative">
@@ -57,13 +65,21 @@ const LowerCard = ({ index, title, image, artist }) => {
                 {title}
               </div>
               <div className="text-[#eee] truncate max-w-[11rem] group-hover:w-28 whitespace-nowrap overflow-hidden text-ellipsis">
-                {artist
-                  ?.map(
-                    (art, index) =>
-                      decodeHtmlEntities(art) +
-                      (index !== artist.length - 1 ? ", " : "")
-                  )
-                  .join("")}
+                {(() => {
+                  const arr = Array.isArray(artist)
+                    ? artist
+                    : artist
+                      ? [artist]
+                      : [];
+                  return arr
+                    .map(
+                      (art, i) =>
+                        decodeHtmlEntities(
+                          typeof art === "string" ? art : (art?.name ?? ""),
+                        ) + (i !== arr.length - 1 ? ", " : ""),
+                    )
+                    .join("");
+                })()}
               </div>
             </div>
           </div>

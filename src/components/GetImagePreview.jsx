@@ -13,35 +13,42 @@ function GetImagePreview({
 }) {
     const [preview, setPreview] = useState(null);
 
-    const handlePreview = (e) => {
-        const files = e.target.files;
-        setPreview(URL.createObjectURL(files[0]));
-        return files;
-    };
+    const hasImage = !!(preview || image);
+
     return (
         <>
             <div className="w-full">
                 <label
                     htmlFor="avatar"
-                    className="cursor-pointer relative flex flex-row justify-between items-start"
+                    className="cursor-pointer flex flex-col items-center gap-2"
                 >
                     {label && (
-                        <label className="inline-block mb-1 pl-1">
+                        <span className="text-sm text-gray-600">
                             {label}
-                        </label>
+                        </span>
                     )}
-                    {/* <div className="relative flex justify-center items-center"> */}
-                    <img
-                        src={preview || image}
-                        className={className}
-                    />
-                    {cameraIcon && (
-                        <FaCamera
-                            size={cameraSize}
-                            className="hover:text-purple-500 absolute inline-flex justify-center items-center w-full"
-                        />
+                    {hasImage ? (
+                        <div className="relative">
+                            <img
+                                src={preview || image}
+                                alt="Avatar"
+                                className={className}
+                            />
+                            {cameraIcon && (
+                                <FaCamera
+                                    size={cameraSize}
+                                    className="hover:text-purple-500 absolute bottom-0 right-0 text-indigo-600"
+                                />
+                            )}
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center gap-1 w-20 h-20 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-indigo-400 hover:bg-indigo-50/50 transition-colors">
+                            {cameraIcon && (
+                                <FaCamera size={cameraSize} className="text-gray-400" />
+                            )}
+                            <span className="text-[10px] text-gray-500">Add photo</span>
+                        </div>
                     )}
-                    {/* </div> */}
                     <Controller
                         name="avatar"
                         control={control}
@@ -53,11 +60,17 @@ function GetImagePreview({
                                 accept="image/*"
                                 className="hidden"
                                 onChange={(e) => {
-                                    onChange(handlePreview(e));
+                                    const files = e.target.files;
+                                    if (files?.length) {
+                                        setPreview(URL.createObjectURL(files[0]));
+                                        onChange(files);
+                                    } else {
+                                        setPreview(null);
+                                        onChange(undefined);
+                                    }
                                 }}
                             />
                         )}
-                        rules={{ required: `avatar is required` }}
                     />
                 </label>
             </div>

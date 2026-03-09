@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from "@reduxjs/toolkit";
-import axisoInstance from "../../helpers/axiosInstance.js";
+import axiosInstance from "../../helpers/axiosInstance.js";
 
 
 const initialState = {
@@ -8,9 +8,10 @@ const initialState = {
     genres:[]
 }
 
-export const getGenres = createAsyncThunk("getGenres",async(genre,data)=>{
+export const getGenres = createAsyncThunk("getGenres", async (arg) => {
+    const { genre, type } = typeof arg === "object" && arg !== null ? arg : { genre: arg, type: undefined };
     try {
-        const response = await axisoInstance.post(`/genres/${genre}`,data)
+        const response = await axiosInstance.post(`/genre/${genre}`, type != null ? { type } : {});
         return response.data    
     } catch (error) {
         throw error

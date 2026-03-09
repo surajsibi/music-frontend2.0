@@ -1,23 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Signup from '../components/Login-signup/Signup';
 import Login from '../components/Login-signup/Login';
-import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
 import { switcher } from '../store/Slice/utilsSlice';
 import Button from '../components/Button';
 import LoginSkeleton from '../skeleton/LoginSkeleton';
-
+import { getCurrentUser, refreshAccessToken } from '../store/Slice/authSlice';
 
 const LoginSignup = () => {
-    const loading = useSelector((state) => (state.auth.loading))
-    
-    
-    const isActive = useSelector((state) => (state.utils.isActive))
-    const dispatch = useDispatch()
-  
+    const loading = useSelector((state) => state.auth.loading);
+    const { userData, status } = useSelector((state) => state.auth);
+    const isActive = useSelector((state) => state.utils.isActive);
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const [sessionChecked, setSessionChecked] = useState(false);
 
-    if(loading){
-        return <LoginSkeleton/>
+    // On login page: if user has access or refresh token, verify and redirect to home
+    useEffect(() => {
+        if (status && userData) {
+            setSessionChecked(true);
+            return;
+        }
+        const checkSession = async () => {
+            let result = await dispatch(getCurrentUser({ silent: true })).unwrap().catch(() => null);
+            if (!result) {
+                const refreshed = await dispatch(refreshAccessToken({ silent: true })).unwrap().catch(() => null);
+                if (refreshed) result = await dispatch(getCurrentUser({ silent: true })).unwrap().catch(() => null);
+            }
+            setSessionChecked(true);
+        };
+        checkSession();
+    }, [dispatch, status, userData]);
+
+    // If already logged in (e.g. from Redux), redirect to home — after all hooks
+    if (status && userData) {
+        const from = location.state?.from?.pathname || "/";
+        return <Navigate to={from} replace />;
+    }
+
+    if (loading) {
+        return <LoginSkeleton />;
+    }
+    if (!sessionChecked) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-200 to-indigo-200">
+                <p className="text-gray-600">Checking session…</p>
+            </div>
+        );
     }
     return (
         <div className={`relative w-full h-screen flex items-center justify-center bg-gradient-to-r from-gray-200 to-indigo-200`}>

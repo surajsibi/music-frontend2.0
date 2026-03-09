@@ -1,29 +1,35 @@
-import React from 'react'
-import {MdHomeFilled,MdOutlineExplore,LuLibrary} from "../icons"
-import { NavLink } from 'react-router-dom'
+import React from "react";
+import { MdHomeFilled } from "../icons";
+import { NavLink } from "react-router-dom";
 
 const UpperSidebar = () => {
-
-    const sidebarTopIcons = [
-        {
-        icon:<MdHomeFilled color='white' size={30}/>,
-        title:"Home",
-        url:"/"
-    },
-   
-]
+  const navItems = [
+    { icon: MdHomeFilled, title: "Home", url: "/" },
+  ];
 
   return (
-    <div className='flex-col flex gap-1 py-1 px-2 '>
-    {sidebarTopIcons.map((item)=>(
-        <NavLink key={item.title} to={item.url} className='flex justify-evenly items-center w-full py-3 rounded-xl hover:bg-[#1d1d1d] bg-black'>
-      {item.icon}
-      <span className='text-white font-semibold text-left'>{item.title}</span>
-    </NavLink>
-    ))}
-        
-    </div>
-  )
-}
+    <nav className="flex flex-col gap-0.5">
+      <span className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/40">
+        Menu
+      </span>
+      {navItems.map(({ icon: Icon, title, url }) => (
+        <NavLink
+          key={title}
+          to={url}
+          className={({ isActive }) =>
+            `flex items-center gap-3 w-full py-2.5 px-3 rounded-lg text-[15px] font-medium transition-all duration-200 ${
+              isActive
+                ? "bg-white/10 text-white"
+                : "text-white/80 hover:bg-white/5 hover:text-white"
+            }`
+          }
+        >
+          <Icon className="flex-shrink-0" size={24} color="currentColor" />
+          <span>{title}</span>
+        </NavLink>
+      ))}
+    </nav>
+  );
+};
 
-export default UpperSidebar
+export default UpperSidebar;

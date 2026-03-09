@@ -1,63 +1,60 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from "react";
 import {
-    WorkoutImage,
-    CommuteImage,
-    EnergizeImage,
-    FeelgoodImage,
-    FocusImage,
-    LoveImage,
-    PartyImage,
-    RelaxImage,
-    SadImage,
-    SleepImage,
-    HomeImage
-} from "../../assets/genreImg/index"
-import { Button } from "../index"
-import { useSelector, useDispatch } from 'react-redux'
-import { changeGenre } from '../../store/Slice/utilsSlice'
+  WorkoutImage,
+  CommuteImage,
+  EnergizeImage,
+  FeelgoodImage,
+  FocusImage,
+  LoveImage,
+  PartyImage,
+  RelaxImage,
+  SadImage,
+  SleepImage,
+  HomeImage,
+} from "../../assets/genreImg/index";
 
+const SLIDES = [
+  HomeImage,
+  WorkoutImage,
+  FeelgoodImage,
+  EnergizeImage,
+  RelaxImage,
+  LoveImage,
+  PartyImage,
+  CommuteImage,
+  SadImage,
+  FocusImage,
+  SleepImage,
+];
+
+const SLIDE_INTERVAL_MS = 10000;
 
 const Genre = () => {
-    const currentGenre = useSelector(state => state.utils.currentGenre)
-    const dispatch = useDispatch()
+  const [current, setCurrent] = useState(0);
 
-    const genres = ["Workout", "Feel good", "Energize", "Relax", "Romance", "Party", "Commute", "Sad", "Focus", "Sleep"]
-    const genreImages = {
-        Workout: WorkoutImage,
-        "Feel good": FeelgoodImage,
-        Energize: EnergizeImage,
-        Relax: RelaxImage,
-        Commute: CommuteImage,
-        Focus: FocusImage,
-        Romance: LoveImage,
-        Party: PartyImage,
-        Sad: SadImage,
-        Sleep: SleepImage,
-        defaultGenre: HomeImage
-    };
-    
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % SLIDES.length);
+    }, SLIDE_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, []);
 
+  return (
+    <div className="w-full h-full relative overflow-hidden">
+      {SLIDES.map((src, i) => (
+        <div
+          key={i}
+          role="img"
+          aria-hidden={i !== current}
+          style={{
+            backgroundImage: `url(${src})`,
+            opacity: i === current ? 1 : 0,
+          }}
+          className="absolute inset-0 bg-no-repeat bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+        />
+      ))}
+    </div>
+  );
+};
 
-    return (
-        <div style={{
-            backgroundImage: `url(${genreImages[currentGenre] || genreImages["defaultGenre"]})`,
-        }} className="w-full h-full bg-no-repeat bg-cover bg-center relative ">
-        
-            <div className='w-full flex items-center justify-between pt-8 px-24 z-10 '>
-                {genres.map((genre) => (
-                    <Button
-                        key={genre}
-                        children={genre}
-                        className={` ${currentGenre == genre ? "bg-white text-black py-2 rounded-md px-2 font-medium text-xs" : "bg-[#FFFFFF1A] py-2 rounded-md px-2 font-medium text-xs text-white"}`}
-                        onClick={() => { dispatch(changeGenre(genre)) }}
-                    />
-                ))}
-
-
-            </div>
-            
-        </div>
-    )
-}
-
-export default Genre
+export default Genre;

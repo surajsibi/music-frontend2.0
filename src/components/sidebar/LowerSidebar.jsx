@@ -1,48 +1,67 @@
-import React,{useEffect,useState} from 'react'
-import { FaPlus } from "../icons"
-import { NavLink } from 'react-router-dom'
-import {changeNewPlaylist} from "../../store/Slice/utilsSlice"
-import { useSelector,useDispatch } from 'react-redux'
-import {getAllPlaylist}  from "../../store/Slice/playlistSlice"
-import { useNavigate } from 'react-router-dom'
-
+import React, { useEffect } from "react";
+import { FaPlus } from "../icons";
+import { NavLink } from "react-router-dom";
+import { changeNewPlaylist } from "../../store/Slice/utilsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllPlaylist } from "../../store/Slice/playlistSlice";
 
 const LowerSidebar = () => {
-    const Navigate = useNavigate()
-    const userData = useSelector((state)=>state.auth.userData)
-    const playlist = useSelector((state)=>state.playlist.playlists)
+  const userData = useSelector((state) => state.auth.userData);
+  const playlist = useSelector((state) => state.playlist.playlists);
+  const dispatch = useDispatch();
 
-const dispatch = useDispatch()
-    useEffect(() => {
-        async function fetchPlaylists() {
-            const result = await dispatch(getAllPlaylist(userData._id));
-        }
-        fetchPlaylists();
-    }, [dispatch, userData]);
+  useEffect(() => {
+    if (!userData?._id) return;
+    dispatch(getAllPlaylist(userData._id));
+  }, [dispatch, userData?._id]);
 
-    const openNewPlaylist = ()=>{
-        dispatch(changeNewPlaylist())
-    }
-    
-    return (
-        <div>
+  const openNewPlaylist = () => {
+    dispatch(changeNewPlaylist());
+  };
 
-            <div onClick={openNewPlaylist} className='bg-[#292727] rounded-xl flex justify-center items-center cursor-pointer'>
-                <button className='flex py-2 px-4 justify-center items-center gap-4'>
-                    <FaPlus size={25} color='white' />
-                    <span className='text-white'>New Playlist</span>
-                </button>
-            </div>
-            <div  className='mt-3 h-[48vh]  overflow-y-scroll scrollbarPlaylist overflow-x-hidden'>
-                {playlist.map((item,index)=>(
-                    <NavLink to={`/playlist/${item._id}`} key={index} className="flex flex-col justify-center items-start px-4 w-full   py-2 hover:bg-[#212121]">
-                    <div className='text-white font-semibold text-base'>{item?.name}</div>
-                    <div className='text-white font-extralight text-xs'> {item?.description}</div>
-                </NavLink>
-                ))}
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="flex flex-col h-full min-h-0">
+      <span className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/40">
+        Playlists
+      </span>
+      <button
+        type="button"
+        onClick={openNewPlaylist}
+        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-lg border border-dashed border-white/20 text-white/70 hover:border-white/40 hover:bg-white/5 hover:text-white transition-all duration-200 mb-3"
+      >
+        <FaPlus size={18} className="flex-shrink-0" />
+        <span className="text-sm font-medium">New Playlist</span>
+      </button>
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden scrollbarPlaylist pr-1">
+        {playlist?.length ? (
+          playlist.map((item, index) => (
+            <NavLink
+              to={`/playlist/${item._id}`}
+              key={item._id ?? index}
+              className={({ isActive }) =>
+                `block rounded-lg px-3 py-2.5 mb-0.5 transition-all duration-200 ${
+                  isActive
+                    ? "bg-white/10 text-white"
+                    : "text-white/85 hover:bg-white/5"
+                }`
+              }
+            >
+              <div className="font-medium text-sm truncate">
+                {item?.name || "Untitled"}
+              </div>
+              {item?.description ? (
+                <div className="text-xs text-white/50 truncate mt-0.5">
+                  {item.description}
+                </div>
+              ) : null}
+            </NavLink>
+          ))
+        ) : (
+          <p className="px-3 py-4 text-sm text-white/40">No playlists yet</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
-export default LowerSidebar
+export default LowerSidebar;

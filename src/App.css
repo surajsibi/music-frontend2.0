@@ -1,94 +1,162 @@
-/* Target the scrollbar in the div with the class 'overflow-x-auto' */
-.scrollbar::-webkit-scrollbar {
-  height: 8px;
-  /* Height of the scrollbar */
+/* ========== Hero section: top/bottom blur merge ========== */
+.heroFadeMask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
 
+/* ========== Modern scrollbars (Chrome/Safari/Edge) ========== */
+
+/* Base horizontal scrollbar (cards, tables) */
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+  display: hidden;
+}
+
+
+.scrollbar::-webkit-scrollbar-button:vertical:decrement,
+.scrollbar::-webkit-scrollbar-button:vertical:increment,
+.scrollbar::-webkit-scrollbar-button:horizontal:decrement,
+.scrollbar::-webkit-scrollbar-button:horizontal:increment {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .scrollbar::-webkit-scrollbar-track {
-  background: #000000;
-  /* Light gray background */
-  border-radius: 10px;
-  /* Rounded corners for the track */
+  background: transparent;
+  border-radius: 100px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4b5563;
-  /* Darker color for the thumb */
-  border-radius: 10px;
-  border: 2px solid #f0f0f0;
-  /* Creates space around the thumb */
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 100px;
+  transition: background 0.2s ease;
 }
 
-.scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: #1f2937;
-  /* Darker color on hover */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
+.scrollbar::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.5);
+}
 
-/* Target the scrollbar in the div with the class 'overflow-x-auto' */
+/* Main content area scrollbar */
+.scrollbarMain {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(187, 57, 247, 0.5) transparent;
+}
+
 .scrollbarMain::-webkit-scrollbar {
-  height: 8px;
-  /* Height of the scrollbar */
-  width: 15px;
+  width: 8px;
+  height: 6px;
+}
+
+.scrollbarMain::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.scrollbarMain::-webkit-scrollbar-button:vertical:decrement,
+.scrollbarMain::-webkit-scrollbar-button:vertical:increment,
+.scrollbarMain::-webkit-scrollbar-button:horizontal:decrement,
+.scrollbarMain::-webkit-scrollbar-button:horizontal:increment {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .scrollbarMain::-webkit-scrollbar-track {
   background: transparent;
-  /* Light gray background */
-  border-radius: 10px;
-  /* Rounded corners for the track */
+  border-radius: 100px;
 }
 
 .scrollbarMain::-webkit-scrollbar-thumb {
-  background-color: #161118;
-  /* Darker color for the thumb */
-  border-radius: 10px;
-  border: 2px solid #bb39f7;
-  /* Creates space around the thumb */
+  background: rgba(187, 57, 247, 0.4);
+  border-radius: 100px;
+  transition: background 0.2s ease;
 }
 
-.scrollbarMain:hover::-webkit-scrollbar-thumb {
-  background-color: #161118;
-  /* Darker color on hover */
+.scrollbarMain::-webkit-scrollbar-thumb:hover {
+  background: rgba(187, 57, 247, 0.65);
 }
 
-/* Target the scrollbar in the div with the class 'overflow-x-auto' */
+.scrollbarMain::-webkit-scrollbar-thumb:active {
+  background: rgba(187, 57, 247, 0.85);
+}
+
+/* Music / library scrollbar */
 .scrollbarMusic {
   margin: 0;
-  /* Remove any default margin */
   padding: 0;
-  /* Remove any default padding */
   height: 87%;
-  /* Ensure it fits the container */
   overflow: auto;
-  /* Ensure proper scrolling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(187, 57, 247, 0.5) transparent;
 }
 
 .scrollbarMusic::-webkit-scrollbar {
-  height: 8px;
-  /* Height of the scrollbar */
-  width: 9px;
+  width: 8px;
+  height: 6px;
+}
+
+.scrollbarMusic::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.scrollbarMusic::-webkit-scrollbar-button:vertical:decrement,
+.scrollbarMusic::-webkit-scrollbar-button:vertical:increment,
+.scrollbarMusic::-webkit-scrollbar-button:horizontal:decrement,
+.scrollbarMusic::-webkit-scrollbar-button:horizontal:increment {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .scrollbarMusic::-webkit-scrollbar-track {
   background: transparent;
-  /* Light gray background */
-  border-radius: 10px;
-  /* Rounded corners for the track */
+  border-radius: 100px;
 }
 
 .scrollbarMusic::-webkit-scrollbar-thumb {
-  background-color: #521968;
-  /* Darker color for the thumb */
-  border-radius: 10px;
-  border: 2px solid #bb39f7;
-  /* Creates space around the thumb */
+  background: rgba(187, 57, 247, 0.4);
+  border-radius: 100px;
+  transition: background 0.2s ease;
 }
 
-.scrollbarMusic:hover::-webkit-scrollbar-thumb {
-  background-color: #521968;
-  /* Darker color on hover */
+.scrollbarMusic::-webkit-scrollbar-thumb:hover {
+  background: rgba(187, 57, 247, 0.65);
+}
+
+.scrollbarMusic::-webkit-scrollbar-thumb:active {
+  background: rgba(187, 57, 247, 0.85);
 }
 
 
@@ -177,61 +245,231 @@
 }
 
 
- /* scrollbar for playlist */
+/* Playlist scrollbar */
+.scrollbarPlaylist {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
 
 .scrollbarPlaylist::-webkit-scrollbar {
-  height: 8px;
-  width: 5px;
-  /* Height of the scrollbar */
-
+  width: 6px;
+  height: 6px;
 }
 
-.scrollbarPlaylist::-webkit-scrollbar-track {
-  background: #000000;
-  /* Light gray background */
-  border-radius: 10px;
-  /* Rounded corners for the track */
+.scrollbarPlaylist::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
-
-.scrollbarPlaylist::-webkit-scrollbar-thumb {
-  background-color: #4b5563;
-  /* Darker color for the thumb */
-  border-radius: 10px;
-  border: 1px solid #f0f0f0;
-  /* Creates space around the thumb */
-}
-
-.scrollbarPlaylist:hover::-webkit-scrollbar-thumb {
-  background-color: #1f2937;
-  /* Darker color on hover */
-}
-
-
-
-
-
-.scrollbarPlaylist::-webkit-scrollbar {
-  height: 8px;
-  /* Height of the scrollbar */
-
+.scrollbarPlaylist::-webkit-scrollbar-button:vertical:decrement,
+.scrollbarPlaylist::-webkit-scrollbar-button:vertical:increment,
+.scrollbarPlaylist::-webkit-scrollbar-button:horizontal:decrement,
+.scrollbarPlaylist::-webkit-scrollbar-button:horizontal:increment {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .scrollbarPlaylist::-webkit-scrollbar-track {
   background: transparent;
-  /* Light gray background */
-  border-radius: 10px;
-  /* Rounded corners for the track */
+  border-radius: 100px;
 }
 
-.scrollbarPLaylist::-webkit-scrollbar-thumb {
-  background-color: #4b5563;
-  /* Darker color for the thumb */
-  border-radius: 10px;
-  border: 2px solid #f0f0f0;
-  /* Creates space around the thumb */
+.scrollbarPlaylist::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 100px;
+  transition: background 0.2s ease;
 }
 
-.scrollbarPLaylist:hover::-webkit-scrollbar-thumb {
-  background-color: #1f2937;
-  /* Darker color on hover */
+.scrollbarPlaylist::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.scrollbarPlaylist::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ========== Trending section ========== */
+.trending-section {
+  padding: 0 0.5rem;
+}
+
+.trending-section-header .trending-icon-wrap {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.trending-scroll {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.75rem;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.trending-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+.trending-empty {
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+/* Trending song card */
+.trending-song-card {
+  width: 160px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.trending-song-card:hover,
+.trending-song-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.trending-card-inner {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.trending-song-card:hover .trending-card-inner,
+.trending-song-card:focus-visible .trending-card-inner {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.trending-card-art-wrap {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.trending-card-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.trending-song-card:hover .trending-card-art {
+  transform: scale(1.06);
+}
+
+.trending-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.trending-song-card:hover .trending-card-overlay,
+.trending-song-card:focus-visible .trending-card-overlay {
+  opacity: 1;
+}
+
+.trending-play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.trending-play-btn:hover {
+  transform: scale(1.08);
+  background: #fff;
+}
+
+.trending-rank-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  line-height: 1;
+}
+
+.trending-rank-badge.trending-rank-num {
+  min-width: 1.5rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.trending-card-info {
+  padding: 0.75rem 0.625rem;
+}
+
+.trending-card-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trending-card-artist {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+  margin: 0.2rem 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trending-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.trending-song-card:hover .trending-card-actions,
+.trending-song-card:focus-visible .trending-card-actions {
+  opacity: 1;
+}
+
+.trending-action-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: transform 0.15s ease;
+}
+
+.trending-action-btn:hover {
+  transform: scale(1.1);
 }
