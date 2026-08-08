@@ -13,7 +13,6 @@ const initialState = {
 export const getAllPlaylist = createAsyncThunk("getAllPlaylist", async (userId) => {
    try {
      const response = await axiosInstance.get(`playlists/p/${userId}`)
-     toast.success("Playlist fetched")
      return response.data.data      
    } catch (error) {
     toast.error(error?.response?.data?.error)

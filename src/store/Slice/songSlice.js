@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import axiosInsatnce from "../../helpers/axiosInstance";
-import toast from "react-hot-toast";
+import axiosInstance from "../../helpers/axiosInstance";
 import { MdNewReleases } from "react-icons/md";
 
 const initialState = {
@@ -18,7 +17,7 @@ const initialState = {
 
 export const getNewReleased = createAsyncThunk("getNewReleased",async()=>{
     try {
-        const response = await axiosInsatnce.get("/songs2/song/trending")
+        const response = await axiosInstance.get("/songs2/song/trending")
         return response.data.data
     } catch (error) {
         throw error
@@ -28,7 +27,7 @@ export const getNewReleased = createAsyncThunk("getNewReleased",async()=>{
 
 export const getAllSongs = createAsyncThunk("getAllSongs", async (data) => {
     try {
-        const response = await axiosInsatnce.get("/songs2")
+        const response = await axiosInstance.get("/songs2")
         return response.data.data
     } catch (error) {
         throw error
@@ -36,7 +35,7 @@ export const getAllSongs = createAsyncThunk("getAllSongs", async (data) => {
 })
 export const getSongById = createAsyncThunk("getSongById", async (id) => {
     try {
-        const response = await axiosInsatnce.get(`/songs2/${id}`)
+        const response = await axiosInstance.get(`/songs2/${id}`)
         return response?.data?.data?.[0]
     } catch (error) {
         throw error
@@ -44,9 +43,13 @@ export const getSongById = createAsyncThunk("getSongById", async (id) => {
 })
 export const getSuggestions = createAsyncThunk("getSuggestions", async (id) => {
     try {
-        const response = await axiosInsatnce.post(`/songs2/${id}`)
+        const response = await axiosInstance.post(`/songs2/${id}`)
+        console.log("[getSuggestions] API response:", response)
+        console.log("[getSuggestions] response.data:", response.data)
+        console.log("[getSuggestions] suggestions (response.data.data):", response.data.data)
         return response.data.data
     } catch (error) {
+        console.log("[getSuggestions] API error:", error)
         throw error
     }
 

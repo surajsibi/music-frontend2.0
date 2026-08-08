@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import ReactHowler from "react-howler";
 import { useSelector, useDispatch } from "react-redux";
 import { current } from "@reduxjs/toolkit";
-import { playNext, playPrev } from "../../../store/Slice/howler.js";
+import { playNext, playPrev, toggleMute, setCurrentTime as setReduxCurrentTime, setDuration as setReduxDuration } from "../../../store/Slice/howler.js";
 import { changeSavePlaylist } from "../../../store/Slice/utilsSlice.js";
 import { savePlaylistId } from "../../../store/Slice/playlistSlice.js";
 import { toggleLike } from "../../../store/Slice/likeSlice.js";
@@ -34,6 +34,7 @@ const LowerSide = () => {
   const navigate = useNavigate();
   const [arrow, setArrow] = useState("up");
   const volume = useSelector((state) => state.howler.volume);
+  const savePlaylistOpen = useSelector((state) => state.utils.savePlaylist);
   const howlerRef = useRef(null);
   const currentSong = useSelector((state) => state.howler.currentSong);
   const duration = currentSong?.duration;
@@ -46,6 +47,31 @@ const LowerSide = () => {
     }
   }, [currentSong]);
 
+  useEffect(() => {
+    if (currentSong?.songId) {
+      setCurrentTime(0);
+      dispatch(setReduxCurrentTime(0));
+    }
+  }, [currentSong?.songId, dispatch]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const target = e.target;
+      const inInput = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable;
+      if (!inInput && (e.code === "KeyM" || e.key === "m" || e.key === "M")) {
+        e.preventDefault();
+        dispatch(toggleMute());
+        return;
+      }
+      if (e.code !== "Space" && e.key !== " ") return;
+      if (inInput) return;
+      e.preventDefault();
+      setIsPlaying((prev) => !prev);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [dispatch]);
+
   // console.log(currentSong,"this is cs")
 
   function decodeHtmlEntities(text) {
@@ -56,7 +82,11 @@ const LowerSide = () => {
 
   const handleOnLoad = () => {
     if (howlerRef?.current) {
-      howlerRef?.current.play();
+      const duration = howlerRef.current.duration();
+      if (typeof duration === 'number' && duration > 0) {
+        dispatch(setReduxDuration(duration));
+      }
+      howlerRef.current.play();
       setIsPlaying(true);
     }
   };
@@ -65,19 +95,21 @@ const LowerSide = () => {
     if (isPlaying) {
       interval = setInterval(() => {
         if (howlerRef?.current) {
-          const current = howlerRef?.current.seek(); // Get current time
+          const current = howlerRef.current.seek();
           setCurrentTime(current);
+          dispatch(setReduxCurrentTime(current));
         }
-      }, 500); // Update every 500ms
+      }, 100);
     } else {
       clearInterval(interval);
     }
-    return () => clearInterval(interval); // Clean up
-  }, [isPlaying]);
+    return () => clearInterval(interval);
+  }, [isPlaying, dispatch]);
 
   useEffect(() => {
     if (howlerRef?.current && seekTime !== currentTime) {
-      howlerRef?.current.seek(seekTime); // Set the current time to the seek time
+      howlerRef?.current.seek(seekTime);
+      dispatch(setReduxCurrentTime(seekTime));
     }
   }, [seekTime]);
 
@@ -112,7 +144,7 @@ const LowerSide = () => {
   const handleSongEnd = () => {
     const updatedPlaylist = store?.getState()?.howler?.songPlaylist; // Get latest Redux state
     const currentIndex = updatedPlaylist?.findIndex(
-      (song) => song?.songId === currentSong?.songId
+      (song) => song?.songId === currentSong?.songId,
     );
     if (currentIndex == updatedPlaylist?.length - 1) {
       navigate(`/music/${updatedPlaylist?.[0]?.songId}`);
@@ -127,7 +159,7 @@ const LowerSide = () => {
   const handleNext = () => {
     const updatedPlaylist = store?.getState()?.howler?.songPlaylist; // Get latest Redux state
     const currentIndex = updatedPlaylist?.findIndex(
-      (song) => song?.songId === currentSong?.songId
+      (song) => song?.songId === currentSong?.songId,
     );
     if (currentIndex == updatedPlaylist?.length - 1) {
       navigate(`/music/${updatedPlaylist?.[0]?.songId}`);
@@ -141,7 +173,7 @@ const LowerSide = () => {
   const handlePrev = () => {
     const updatedPlaylist = store?.getState()?.howler?.songPlaylist; // Get latest Redux state
     const currentIndex = updatedPlaylist?.findIndex(
-      (song) => song?.songId === currentSong?.songId
+      (song) => song?.songId === currentSong?.songId,
     );
     if (currentIndex == 0) {
       navigate(`/music/${updatedPlaylist[updatedPlaylist.length - 1]?.songId}`);
@@ -156,7 +188,7 @@ const LowerSide = () => {
   console.log(currentSong, "this is current song");
 
   if (isLoading) {
-    return <>plz wait</>;
+    return <>Please wait…</>;
   }
 
   return (
@@ -200,11 +232,11 @@ const LowerSide = () => {
           </div>
         </div>
         <div className="flex items-center gap-x-5">
-          <div onClick={() => handlePrev()} className="cursor-pointer">
+          <div onClick={() => handlePrev()} className="cursor-pointer p-1 rounded-full transition-transform duration-200 hover:scale-110 active:scale-95 hover:bg-white/10">
             <IoPlaySkipBackSharp color="white" size={20} />
           </div>
           <div
-            className="cursor-pointer transition-all duration-[2s] "
+            className="cursor-pointer p-2 rounded-full flex items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95 hover:bg-white/10"
             onClick={() => setIsPlaying(!isPlaying)}
           >
             {isPlaying ? (
@@ -221,7 +253,7 @@ const LowerSide = () => {
               />
             )}
           </div>
-          <div onClick={() => handleNext()} className="cursor-pointer">
+          <div onClick={() => handleNext()} className="cursor-pointer p-1 rounded-full transition-transform duration-200 hover:scale-110 active:scale-95 hover:bg-white/10">
             <IoPlaySkipForward color="white" size={20} />
           </div>
           <div className="text-white text-sm  flex w-[6vw] justify-center">
@@ -246,7 +278,9 @@ const LowerSide = () => {
               onClick={() => {
                 toggleSavePlaylist(currentSong);
               }}
-              className="py-1 px-1 rounded-[40%] flex items-center  hover:bg-gray-700"
+              className={`py-1 px-1 rounded-[40%] flex items-center transition-colors ${
+                savePlaylistOpen ? "bg-white/20" : "hover:bg-gray-700"
+              }`}
             >
               <MdOutlinePlaylistAdd color="white" size={24} />
             </div>

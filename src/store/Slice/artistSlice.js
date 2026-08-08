@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axisoInstance from "../../helpers/axiosInstance";
+import axiosInstance from "../../helpers/axiosInstance";
 
 const initialState = {
     loading: false,
@@ -11,7 +11,7 @@ const initialState = {
 
 export const getArtistById = createAsyncThunk("getArtistById", async (id) => {
     try {
-        const response = await axisoInstance.get(`/artists2/${id}`)
+        const response = await axiosInstance.get(`/artists2/${id}`)
         return response.data.data[0];
     } catch (error) {
         throw error
@@ -21,7 +21,7 @@ export const getArtistById = createAsyncThunk("getArtistById", async (id) => {
 
 export const getArtistTopSongs = createAsyncThunk("getArtistTopSongs", async (artistsId) => {
     try {
-        const response = await axisoInstance.post('/songs2/a/artistSongs', {artistsId})
+        const response = await axiosInstance.post('/songs2/a/artistSongs', {artistsId})
         return response.data.data
         
     } catch (error) {

@@ -14,26 +14,27 @@ const PlaylistComponent = ({ id }) => {
     fetchCurrentPlaylist(id);
   }, [id]);
   const currentPlaylist = useSelector(
-    (state) => state.playlist.currentPlaylist
+    (state) => state.playlist.currentPlaylist,
   );
   const songs = currentPlaylist?.[0]?.songs;
   return (
     <>
       {songs?.length >= 1 ? (
-        <div className=" w-full h-[90vh] flex relative overflow-y-hidden">
-          <div className="absolute inset-0 bg-black/60 w-full h-[50vh]     flex justify-center  items-center opacity-30">
+        <div className="w-full h-[90vh] flex relative overflow-y-hidden">
+          <div className="absolute inset-0 bg-black/60 w-full h-[50vh] flex justify-center items-center opacity-30">
             <img
               className="w-full h-full object-cover blur-2xl"
               src={songs ? songs?.[0]?.images?.[0]?.url : ""}
+              alt=""
             />
-            <div className="absolute inset-0 "></div>
+            <div className="absolute inset-0" />
           </div>
-          <div className=" w-[35%] h-full z-10">
+          <div className="w-[35%] min-w-[260px] max-w-[380px] h-full z-10 flex-shrink-0">
             <LeftsidePlaylist playlist={currentPlaylist} songs={songs} />
           </div>
-          <div className=" text-white w-[65%] h-full z-10 mt-16 overflow-y-auto">
+          <div className="text-white flex-1 min-w-0 h-full z-10 mt-16 overflow-y-auto px-4">
             {songs.map((song) => (
-              <PlaylistSong song={song} />
+              <PlaylistSong key={song?.songId ?? song?._id} song={song} />
             ))}
           </div>
         </div>

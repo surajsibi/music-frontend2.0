@@ -43,20 +43,34 @@ export const userLogin =createAsyncThunk("login",async (data) =>{
     }
 })
 
-export const refreshAccessToken = createAsyncThunk("refreshAccessToken",async (data) =>{
+export const refreshAccessToken = createAsyncThunk("refreshAccessToken",async (data = {}, { rejectWithValue }) =>{
     try {
-        const response = await axiosInstance.post("/users/access-token",data);
+        const response = await axiosInstance.post("/users/access-token", data);
         return response.data
     } catch (error) {
-        toast.error(error?.response?.data?.error)
-        throw error
+        if (!data?.silent) {
+            toast.error(error?.response?.data?.error || "Session expired. Please log in again.")
+        }
+        return rejectWithValue(error?.response?.data)
     }
 })
 
-export const getCurrentUser = createAsyncThunk("getCurrentUser",async ()=>{
+export const getCurrentUser = createAsyncThunk("getCurrentUser",async (arg) =>{
     const response = await axiosInstance.get("/users/current-user")
     return response.data
 })
+
+export const userLogout = createAsyncThunk("logout", async (_, { rejectWithValue }) => {
+    try {
+        await axiosInstance.post("/users/logout");
+        toast.success("Logged out successfully");
+        return null;
+    } catch (error) {
+        // Clear state even if API fails (e.g. already logged out)
+        toast.error(error?.response?.data?.message || "Could not log out");
+        return rejectWithValue(error?.response?.data);
+    }
+});
 
 const authSlice = createSlice({
     name:"auth",
@@ -87,15 +101,36 @@ const authSlice = createSlice({
         builder.addCase(getCurrentUser.fulfilled,(state,action)=>{
             state.loading=false
             state.status=true
-            // state.userData = action.payload
+            const data = action.payload?.data
+            state.userData = Array.isArray(data) ? data[0] : data ?? state.userData
         })
-        builder.addCase(getCurrentUser.rejected,(state,action)=>{
+        builder.addCase(getCurrentUser.rejected,(state, action)=>{
             state.loading=false
             state.status=false
-            // state.userData=null
-            toast.error("Error",action.payload)
+            state.userData=null
+            if (!action.meta?.arg?.silent) {
+                toast.error("Session expired or invalid. Please log in again.")
+            }
         })
-       
+        builder.addCase(refreshAccessToken.pending,(state)=>{
+            state.loading=true
+        })
+        builder.addCase(refreshAccessToken.fulfilled,(state)=>{
+            state.loading=false
+        })
+        builder.addCase(refreshAccessToken.rejected,(state)=>{
+            state.loading=false
+        })
+        builder.addCase(userLogout.fulfilled,(state)=>{
+            state.loading = false;
+            state.status = false;
+            state.userData = null;
+        })
+        builder.addCase(userLogout.rejected,(state)=>{
+            state.loading = false;
+            state.status = false;
+            state.userData = null;
+        })
     }
 })
 

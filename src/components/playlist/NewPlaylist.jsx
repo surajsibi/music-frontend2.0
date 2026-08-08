@@ -1,25 +1,35 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Input, Button } from '../index'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
-import { RiGitRepositoryPrivateLine, MdPublic } from "../icons"
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-import clsx from 'clsx'
-import { useState } from 'react'
-import { changeNewPlaylist } from '../../store/Slice/utilsSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { createPlaylist, deletePlaylistId } from '../../store/Slice/playlistSlice';
-import { addSongToPlaylist, getAllPlaylist } from '../../store/Slice/playlistSlice';
-
+import { Input, Button } from "../index";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
+import { RiGitRepositoryPrivateLine, MdPublic } from "../icons";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react";
+import clsx from "clsx";
+import { useState } from "react";
+import { changeNewPlaylist } from "../../store/Slice/utilsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  createPlaylist,
+  deletePlaylistId,
+} from "../../store/Slice/playlistSlice";
+import {
+  addSongToPlaylist,
+  getAllPlaylist,
+} from "../../store/Slice/playlistSlice";
 
 const NewPlaylist = () => {
-  const userData = useSelector((state) => state.auth.userData)
+  const userData = useSelector((state) => state.auth.userData);
   const select = [
-    { name: 'Public', icon: MdPublic },
-    { name: 'Private', icon: RiGitRepositoryPrivateLine },
-  ]
+    { name: "Public", icon: MdPublic },
+    { name: "Private", icon: RiGitRepositoryPrivateLine },
+  ];
   const dispatch = useDispatch();
-  const currSong = useSelector(state => state.playlist.currentPlaylistId)
+  const currSong = useSelector((state) => state.playlist.currentPlaylistId);
   useEffect(() => {
     async function fetchPlaylists() {
       const result = await dispatch(getAllPlaylist(userData._id));
@@ -27,10 +37,7 @@ const NewPlaylist = () => {
     fetchPlaylists();
   }, [dispatch, userData]);
 
-
-
-
-  const [selected, setSelected] = useState(select[0])
+  const [selected, setSelected] = useState(select[0]);
   const {
     handleSubmit,
     register,
@@ -40,49 +47,62 @@ const NewPlaylist = () => {
     formState: { errors },
   } = useForm();
 
-
   const handleSelectionChange = (value) => {
     setSelected(value);
     setValue("visibility", value.name); // Store the selected value in form data
   };
 
   const submit = async (data) => {
-
-
-    const createdPlaylist = { name: data.title, description: data.description, isPublic: data.visibility === "Public" ? true : false }
+    const createdPlaylist = {
+      name: data.title,
+      description: data.description,
+      isPublic: data.visibility === "Public" ? true : false,
+    };
 
     const response = await dispatch(createPlaylist(createdPlaylist));
     if (currSong) {
-      await dispatch(addSongToPlaylist({ songId: currSong, playlistId: response.payload._id }))
+      await dispatch(
+        addSongToPlaylist({
+          songId: currSong,
+          playlistId: response.payload._id,
+        }),
+      );
       await dispatch(getAllPlaylist(userData._id));
 
-      await dispatch(deletePlaylistId())
-
+      await dispatch(deletePlaylistId());
     }
 
     dispatch(changeNewPlaylist());
-
-  }
+  };
   const close = () => {
     dispatch(changeNewPlaylist());
-  }
+  };
 
   const handleReset = () => {
     reset();
-    setSelected(select[0])
-  }
+    setSelected(select[0]);
+  };
 
-  const playlist = useSelector(state => state.playlist.playlists)
+  const playlist = useSelector((state) => state.playlist.playlists);
 
   return (
-    <div className='w-[60%] bg-[#212121] h-[60%]'>
-      <div className='text-white py-5 px-8  font-bold text-2xl flex justify-between'>
+    <div className="w-[90vw] min-w-[320px] max-w-[440px] bg-[#212121] min-h-[400px] rounded-xl opacity-0 animate-scaleIn shadow-2xl border border-white/5 overflow-hidden">
+      <div className="text-white py-4 px-6 font-bold text-xl flex justify-between items-center border-b border-white/10">
         New playlist
-        <div onClick={close} className='cursor-pointer hover:bg-gray-600 px-2 rounded-lg'>x</div>
+        <button
+          type="button"
+          onClick={close}
+          className="cursor-pointer hover:bg-white/10 p-1.5 rounded-full transition-colors"
+        >
+          ×
+        </button>
       </div>
-      <div className='mt-2' >
-        <form onSubmit={handleSubmit(submit)} className='px-5 flex flex-col gap-8'>
-          <div className='border-b'>
+      <div className="py-4">
+        <form
+          onSubmit={handleSubmit(submit)}
+          className="px-6 flex flex-col gap-6"
+        >
+          <div className="border-b">
             <Input
               className="bg-transparent border-b border-gray-500 text-white"
               type="text"
@@ -93,7 +113,7 @@ const NewPlaylist = () => {
               <span className="text-red-500">{errors.title.message}</span>
             )}
           </div>
-          <div className='border-b'>
+          <div className="border-b">
             <Input
               type="text"
               className="bg-transparent borber-b border-gray-500 text-white"
@@ -104,25 +124,21 @@ const NewPlaylist = () => {
 
           <div>
             <Listbox value={selected} onChange={handleSelectionChange}>
-
-              <ListboxButton
-                className="text-white flex border-b-2 items-center border-blue-600 w-48 justify-between"
-              >
-                <div className='flex items-center justify-center gap-2 py-2 font-smeibold text-lg'>
-                  {selected.icon && <selected.icon size={22} color='white' />}
-                  {selected.name}</div>
-                <ChevronDownIcon
-                  className="group pointer-events-none  top-2.5 right-2.5 size-4 fill-white/60 "
-
-                />
+              <ListboxButton className="text-white flex border-b-2 items-center border-blue-600 w-48 justify-between">
+                <div className="flex items-center justify-center gap-2 py-2 font-smeibold text-lg">
+                  {selected.icon && <selected.icon size={22} color="white" />}
+                  {selected.name}
+                </div>
+                <ChevronDownIcon className="group pointer-events-none  top-2.5 right-2.5 size-4 fill-white/60 " />
               </ListboxButton>
               <ListboxOptions
                 anchor="bottom"
                 transition
                 className={clsx(
-                  'w-[var(--button-width)] rounded-xl border border-white/5 bg-white/5 p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none',
-                  'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
-                )}>
+                  "w-[var(--button-width)] rounded-xl border border-white/5 bg-white/5 p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
+                  "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
+                )}
+              >
                 {select.map((person) => (
                   <ListboxOption
                     key={person.name}
@@ -130,16 +146,22 @@ const NewPlaylist = () => {
                     className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-white/10"
                   >
                     <CheckIcon className="invisible size-4 fill-white group-data-[selected]:visible" />
-                    <div className="text-sm/6 text-white flex gap-2 font-semibold">{person.icon && <person.icon size={22} color='white' />} {person.name} </div>
+                    <div className="text-sm/6 text-white flex gap-2 font-semibold">
+                      {person.icon && <person.icon size={22} color="white" />}{" "}
+                      {person.name}{" "}
+                    </div>
                   </ListboxOption>
                 ))}
               </ListboxOptions>
             </Listbox>
-
           </div>
-          <input type="hidden" {...register("visibility")} value={watch("visibility") || selected.name} />
+          <input
+            type="hidden"
+            {...register("visibility")}
+            value={watch("visibility") || selected.name}
+          />
 
-          <div className='w-full justify-end flex gap-5'>
+          <div className="w-full justify-end flex gap-5">
             <Button
               type="submit"
               className="bg-indigo-700 text-white uppercase px-6 py-2 rounded-md mt-4 text-sm font-semibold"
@@ -152,13 +174,10 @@ const NewPlaylist = () => {
               children="Reset"
             />
           </div>
-
         </form>
-
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default NewPlaylist
+export default NewPlaylist;

@@ -6,49 +6,29 @@ import Playlist from "./pages/Playlist"
 import Album from "./pages/Album"
 import { Toaster } from "react-hot-toast"
 import Layout from "./Layout"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, Navigate } from "react-router-dom"
+import ProtectedRoute from "./components/middleware/ProtectedRoute"
 import './App.css'
 import Search from "./pages/Search"
+
 function App() {
-
-
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={<Layout />}
-        >
-          <Route
-            path="/"
-            element={<Homepage />}
-          />
-          <Route
-            path="/music/:id"
-            element={<Musicpage />}
-          />
-          <Route
-            path="/artist/:id"
-            element={<Artist />}
-          />
-          <Route
-            path="/playlist/:id"
-            element={<Playlist />}
-          />
-          <Route
-            path="/album/:id"
-            element={<Album/>}
-          />
-          <Route
-            path="/search/:querry"
-            element={<Search/>}
-          />
+        <Route path="/login" element={<LoginSignup />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Homepage />} />
+            <Route path="music/:id" element={<Musicpage />} />
+            <Route path="artist/:id" element={<Artist />} />
+            <Route path="playlist/:id" element={<Playlist />} />
+            <Route path="album/:id" element={<Album />} />
+            <Route path="search/:querry" element={<Search />} />
+          </Route>
         </Route>
 
-        <Route
-          path="/login"
-          element={<LoginSignup />}
-        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster position="top-right" reverseOrder={true}
         toastOptions={{

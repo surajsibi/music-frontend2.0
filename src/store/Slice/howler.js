@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     volume: 0.5,
+    muted: false,
+    previousVolume: 0.5,
     duration: 0,
+    currentTime: 0,
     currentSong: null,
     songPlaylist:[],
     currentIndex:0,
@@ -27,6 +30,9 @@ const howlerSlice = createSlice({
         setCurrentSong: (state, action) => {
             state.currentSong = action.payload;
             state.currentIndex = state.songPlaylist.findIndex(song => song.songId === action.payload.songId);
+            state.currentTime = 0;
+            const d = action.payload?.duration;
+            state.duration = typeof d === 'number' && d > 0 ? d : (Number(d) || 0);
         },
         playNext: (state) => {
             if (state.currentIndex < state.songPlaylist.length - 1) {
@@ -40,10 +46,25 @@ const howlerSlice = createSlice({
                 state.currentSong = state.songPlaylist[state.currentIndex];
             }
         },
-        changeVolume: (state, action) => { state.volume = action.payload / 100 },
+        changeVolume: (state, action) => {
+            const v = action.payload / 100;
+            state.volume = v;
+            if (state.muted && v > 0) state.muted = false;
+        },
+        toggleMute: (state) => {
+            if (state.muted) {
+                state.volume = state.previousVolume;
+                state.muted = false;
+            } else {
+                state.previousVolume = state.volume;
+                state.volume = 0;
+                state.muted = true;
+            }
+        },
         setDuration: (state, action) => { state.duration = action.payload },
+        setCurrentTime: (state, action) => { state.currentTime = action.payload },
     }
 })
 
-export const { changeVolume, setDuration,setPlaylist,setInAlbum, setCurrentSong, playNext, playPrev ,setPlaylistPlaylist,setInPlaylist } = howlerSlice.actions
+export const { changeVolume, toggleMute, setDuration, setCurrentTime, setPlaylist, setInAlbum, setCurrentSong, playNext, playPrev, setPlaylistPlaylist, setInPlaylist } = howlerSlice.actions
 export default howlerSlice.reducer

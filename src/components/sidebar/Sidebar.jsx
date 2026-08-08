@@ -1,18 +1,18 @@
-import React from 'react'
-import UpperSidebar from './UpperSidebar'
-import LowerSidebar from './LowerSidebar'
+import React from "react";
+import UpperSidebar from "./UpperSidebar";
+import LowerSidebar from "./LowerSidebar";
 
 const Sidebar = () => {
   return (
-   <div>
-     <div className='bg-black border-b-2'>
-      <UpperSidebar/>
+    <div className="flex flex-col h-full bg-black opacity-0 animate-fadeIn animation-delay-100">
+      <div className="flex-shrink-0 px-3 py-4">
+        <UpperSidebar />
+      </div>
+      <div className="flex-1 min-h-0 flex flex-col px-3 pb-4 border-t border-white/5">
+        <LowerSidebar />
+      </div>
     </div>
-    <div className='pt-4 px-3'>
-        <LowerSidebar/>
-    </div>
-   </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
-import { IoSearch } from 'react-icons/io5';
-import { RxCross2 } from 'react-icons/rx';
-import Button  from '../Button.jsx'; 
-import { useSelector,useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { IoSearch } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
+import Button from "../Button.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const navigate  = useNavigate()
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search.searchAll);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // prevent page 
-  
+    if (event.key === "Enter") {
+      event.preventDefault(); // prevent page
 
-      setSearchTerm('');
+      setSearchTerm("");
       navigate(`/search/${searchTerm}`);
-      
+
       // call your search function here
     }
   };
 
   const clearSearch = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   return (
     <div>
-      <div className='flex items-center bg-[#3e3e3e] rounded-md'>
+      <div className="flex items-center bg-[#3e3e3e] rounded-md">
         <label className="flex py-1 items-center space-x-2 w-full">
           {/* Icon as part of the label */}
           <div className="px-1">
